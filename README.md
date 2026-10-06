@@ -4,6 +4,8 @@
 [![GitHub forks](https://img.shields.io/github/forks/lucasfdigital/PageClip?style=social)](https://github.com/lucasfdigital/PageClip/network/members)
 [![Last commit](https://img.shields.io/github/last-commit/lucasfdigital/PageClip)](https://github.com/lucasfdigital/PageClip/commits/main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Issues](https://img.shields.io/github/issues/lucasfdigital/PageClip)](https://github.com/lucasfdigital/PageClip/issues)
+[![Pull requests](https://img.shields.io/github/issues-pr/lucasfdigital/PageClip)](https://github.com/lucasfdigital/PageClip/pulls)
 
 Extensão MV3 (Chrome/Edge) para tirar prints **recortados exatamente num elemento do DOM**.
 Você passa o mouse, a extensão destaca o elemento sob o cursor, você clica, e sai um PNG com
@@ -195,6 +197,11 @@ precisa ficar na raiz do zip), **excluindo** `hub-react/` (`src`, `node_modules`
 Vite): a extensão só usa o `src/hub-boardui/` já gerado. Para um `.crx` local, use
 *Empacotar extensão* em `chrome://extensions` e guarde o `.pem` gerado, é ele que mantém
 o mesmo ID entre versões.
+
+## Contribuindo
+
+O PageClip é open source (MIT). Abra issues e PRs à vontade, o fluxo está
+descrito em [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
