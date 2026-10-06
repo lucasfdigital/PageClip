@@ -37,12 +37,17 @@ a { color: var(--accent-dark); }
   z-index: 10;
   display: flex;
   align-items: center;
-  gap: 24px;
+  flex-wrap: wrap;
+  gap: 12px 24px;
   padding: 12px 28px;
   background: rgb(255 255 255 / 0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
+
+.stars { display: inline-flex; align-items: center; }
+
+.stars img { display: block; height: 22px; }
 
 .brand {
   display: inline-flex;
@@ -325,9 +330,12 @@ footer .muted { font-size: 14px; }
 
 /* responsivo */
 
+@media (max-width: 1100px) {
+  .links { display: none; }
+}
+
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; padding-top: 48px; }
-  .links { display: none; }
 }
 
 @media (max-width: 560px) {
