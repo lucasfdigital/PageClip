@@ -1,0 +1,49 @@
+name: Reportar um bug
+description: Algo não funciona como deveria
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Valeu por reportar! Quanto mais detalhe, mais rápido dá para corrigir.
+  - type: textarea
+    id: oque
+    attributes:
+      label: O que aconteceu?
+      description: Descreva o problema e o que você esperava que acontecesse.
+    validations:
+      required: true
+  - type: textarea
+    id: passos
+    attributes:
+      label: Passos para reproduzir
+      placeholder: |
+        1. Abri o site ...
+        2. Apertei Alt+Shift+S ...
+        3. Cliquei em ...
+    validations:
+      required: true
+  - type: input
+    id: site
+    attributes:
+      label: Em qual site aconteceu?
+      placeholder: https://...
+  - type: dropdown
+    id: navegador
+    attributes:
+      label: Navegador
+      options:
+        - Chrome
+        - Edge
+        - Outro (diga abaixo)
+    validations:
+      required: true
+  - type: input
+    id: versao
+    attributes:
+      label: Versão do navegador e do PageClip
+      placeholder: "Chrome 130, PageClip 1.0.0"
+  - type: textarea
+    id: prints
+    attributes:
+      label: Prints ou erros do console
+      description: Arraste imagens aqui. Erros do console ajudam muito (F12, aba Console).

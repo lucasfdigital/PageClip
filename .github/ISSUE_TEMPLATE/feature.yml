@@ -1,0 +1,22 @@
+name: Sugerir uma ideia
+description: Uma função nova ou uma melhoria
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qual problema isso resolve?
+      placeholder: "Quando eu tento ..., eu preciso ..."
+    validations:
+      required: true
+  - type: textarea
+    id: ideia
+    attributes:
+      label: Como você imagina que funcione?
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Algo mais?
+      description: Exemplos, prints, outras extensões que fazem parecido.
