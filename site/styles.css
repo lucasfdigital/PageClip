@@ -71,11 +71,11 @@ a { color: var(--accent-dark); }
 .mark {
   width: 30px;
   height: 30px;
-  border-radius: 9px;
-  background: linear-gradient(180deg, #3b82f6, var(--accent));
   display: inline-grid;
   place-items: center;
 }
+
+.mark svg { display: block; }
 
 .links { display: flex; gap: 4px; margin-inline-start: 8px; }
 
