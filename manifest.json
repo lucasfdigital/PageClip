@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "PageClip",
+  "version": "1.0.0",
+  "description": "Captura recortes exatos de elementos do DOM, regiões livres ou a página inteira, com navegação pela árvore e costura por rolagem.",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "contextMenus",
+    "clipboardWrite"
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "PageClip — capturar elemento (Alt+Shift+S)",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "src/hub-boardui/index.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "start-picker": {
+      "suggested_key": { "default": "Alt+Shift+S" },
+      "description": "Selecionar e capturar um elemento"
+    },
+    "capture-page": {
+      "suggested_key": { "default": "Alt+Shift+F" },
+      "description": "Capturar a página inteira"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["src/content/*.js", "src/shared/*.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

@@ -1,0 +1,6 @@
+node_modules/
+hub-react/node_modules/
+.DS_Store
+*.pem
+*.crx
+*.zip

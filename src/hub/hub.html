@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PageClip</title>
+    <link rel="icon" href="../../icons/icon48.png" />
+    <link rel="stylesheet" href="hub.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <img src="../../icons/icon48.png" alt="" width="26" height="26" />
+        <div>
+          <h1>PageClip</h1>
+          <p>Capturas por elemento do DOM</p>
+        </div>
+      </div>
+
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="gallery" aria-selected="true">Galeria</button>
+        <button role="tab" data-tab="settings" aria-selected="false">Ajustes</button>
+        <button role="tab" data-tab="help" aria-selected="false">Como usar</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ------------------------------------------------------------ galeria -->
+      <section id="gallery" class="tab-panel" role="tabpanel">
+        <div class="bar">
+          <p class="count" id="count">—</p>
+          <div class="bar-actions">
+            <input type="search" id="filter" placeholder="Filtrar por site, seletor ou arquivo" aria-label="Filtrar capturas" />
+            <button class="btn danger" id="clear">Limpar galeria</button>
+          </div>
+        </div>
+
+        <div class="grid" id="grid"></div>
+
+        <div class="empty" id="empty" hidden>
+          <h2>Nada guardado ainda</h2>
+          <p>
+            Abra qualquer site, aperte <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> e clique no elemento que você quer.
+            As capturas aparecem aqui automaticamente.
+          </p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------ ajustes -->
+      <section id="settings" class="tab-panel" role="tabpanel" hidden>
+        <form id="form" autocomplete="off">
+          <fieldset>
+            <legend>Imagem</legend>
+
+            <label class="row">
+              <span>Formato</span>
+              <select name="format">
+                <option value="png">PNG — sem perdas, com transparência</option>
+                <option value="jpeg">JPEG — arquivo menor, sem transparência</option>
+                <option value="webp">WebP — menor ainda</option>
+              </select>
+            </label>
+
+            <label class="row" data-when-lossy>
+              <span>Qualidade <output name="qualityOut"></output></span>
+              <input type="range" name="quality" min="0.4" max="1" step="0.02" />
+            </label>
+
+            <label class="row">
+              <span>Resolução</span>
+              <select name="scale">
+                <option value="device">Da tela (nítida em telas HiDPI)</option>
+                <option value="css">1 pixel CSS = 1 pixel</option>
+              </select>
+            </label>
+
+            <label class="row">
+              <span>Folga ao redor do elemento</span>
+              <input type="number" name="padding" min="0" max="200" step="1" /> <em>px</em>
+            </label>
+
+            <label class="row" data-when-lossy>
+              <span>Cor de fundo (formatos sem transparência)</span>
+              <input type="color" name="matte" />
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Ao capturar</legend>
+
+            <label class="check"><input type="checkbox" name="downloadOnCapture" /> <span>Baixar o arquivo automaticamente</span></label>
+            <label class="check"><input type="checkbox" name="copyOnCapture" /> <span>Copiar para a área de transferência</span></label>
+            <label class="check"><input type="checkbox" name="saveToGallery" /> <span>Guardar na galeria da extensão</span></label>
+
+            <label class="row">
+              <span>Nome do arquivo</span>
+              <input type="text" name="filenameTemplate" spellcheck="false" />
+            </label>
+            <p class="hint">
+              Tokens: <code>{site}</code> <code>{tag}</code> <code>{mode}</code> <code>{date}</code> <code>{time}</code>
+              <code>{w}</code> <code>{h}</code> — resultado: <b id="preview"></b>
+            </p>
+
+            <label class="row">
+              <span>Capturas guardadas na galeria</span>
+              <input type="number" name="historyLimit" min="0" max="200" step="1" />
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Alvos maiores que a tela</legend>
+
+            <label class="check"><input type="checkbox" name="hideFixed" /> <span>Esconder cabeçalhos fixos e elementos sticky durante a rolagem</span></label>
+
+            <label class="row">
+              <span>Espera entre as fotos</span>
+              <input type="number" name="tileDelay" min="0" max="2000" step="10" /> <em>ms</em>
+            </label>
+            <p class="hint">Aumente se a página carrega imagens conforme você rola e elas aparecem borradas ou vazias na costura.</p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Interface</legend>
+
+            <label class="check"><input type="checkbox" name="showLabels" /> <span>Mostrar seletor e dimensões junto do destaque</span></label>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="button" class="btn" id="shortcuts">Editar atalhos do teclado</button>
+            <button type="button" class="btn danger" id="reset">Restaurar padrões</button>
+            <span class="saved" id="saved" aria-live="polite"></span>
+          </div>
+        </form>
+      </section>
+
+      <!-- ----------------------------------------------------------- como usar -->
+      <section id="help" class="tab-panel" role="tabpanel" hidden>
+        <div class="cards">
+          <article>
+            <h2>Atalhos</h2>
+            <dl>
+              <dt><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></dt><dd>abre (ou fecha) o modo de seleção</dd>
+              <dt><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></dt><dd>captura a página inteira na hora</dd>
+              <dt><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></dt><dd>alterna entre elemento, região e página</dd>
+              <dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>sobe para o elemento pai / desce para o filho</dd>
+              <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>anda entre os elementos irmãos</dd>
+              <dt><kbd>Espaço</kbd></dt><dd>trava a seleção (para mexer o mouse sem perder o alvo)</dd>
+              <dt><kbd>Enter</kbd></dt><dd>captura o que está destacado</dd>
+              <dt><kbd>Esc</kbd></dt><dd>interrompe a captura em andamento, fecha o popup ou sai do modo</dd>
+              <dt>botão direito</dt><dd>sai do modo de captura</dd>
+            </dl>
+          </article>
+
+          <article>
+            <h2>Como o recorte é feito</h2>
+            <p>
+              O navegador só permite fotografar a parte visível da aba. O PageClip mede o elemento,
+              tira a foto, e recorta usando a escala real da imagem — por isso o resultado bate pixel a
+              pixel mesmo com zoom do navegador ou tela HiDPI.
+            </p>
+            <p>
+              Quando o alvo é maior que a tela, ele rola a página em partes e costura as fotos.
+              Cada pedaço é medido de novo depois de rolar, então nada sai desalinhado.
+            </p>
+          </article>
+
+          <article>
+            <h2>O que ainda não dá</h2>
+            <ul>
+              <li>Escolher elementos <em>dentro</em> de um iframe de outro domínio — mas dá para selecionar o iframe inteiro, e a imagem sai certa.</li>
+              <li>Capturar páginas internas do navegador (<code>chrome://</code>, a loja de extensões, PDFs).</li>
+              <li>Conteúdo que só existe depois de passar o mouse: o destaque não dispara o <code>:hover</code> da página.</li>
+              <li>Imagens com carregamento preguiçoso só entram na foto se já tiverem aparecido: role a página até o fim antes de capturar e, se ainda saírem vazias, aumente a espera entre as fotos.</li>
+              <li>Páginas de rolagem infinita não têm fim — a captura para em 80 telas e avisa. Você também pode apertar <kbd>Esc</kbd> ou <b>Parar</b> a qualquer momento e ficar com o pedaço já fotografado.</li>
+            </ul>
+          </article>
+
+          <article>
+            <h2>Permissões</h2>
+            <p>
+              O PageClip não pede acesso a todos os sites. Ele só ganha acesso à aba no momento em que
+              você aciona o ícone, o atalho ou o menu de contexto, e perde esse acesso quando a página
+              navega. As capturas ficam só na sua máquina.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="hub.js"></script>
+  </body>
+</html>
