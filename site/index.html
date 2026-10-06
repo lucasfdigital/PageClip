@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PageClip, captura pixel-perfect de qualquer elemento</title>
+  <meta name="description" content="PageClip é a extensão gratuita e open source que captura recortes exatos de elementos do DOM, regiões livres ou a página inteira. Tudo local, sem conta." />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <meta property="og:title" content="PageClip" />
+  <meta property="og:description" content="Aponte, clique, pronto. Captura pixel-perfect de qualquer elemento da página." />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#topo" aria-label="PageClip, início">
+      <span class="mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 8V5a2 2 0 0 1 2-2h3" />
+          <path d="M16 3h3a2 2 0 0 1 2 2v3" />
+          <path d="M21 16v3a2 2 0 0 1-2 2h-3" />
+          <path d="M8 21H5a2 2 0 0 1-2-2v-3" />
+          <circle cx="12" cy="12" r="3.2" />
+        </svg>
+      </span>
+      <b>PageClip</b>
+    </a>
+    <nav class="links" aria-label="Navegação">
+      <a href="#recursos">Recursos</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#atalhos">Atalhos</a>
+      <a href="#privacidade">Privacidade</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn ghost" href="https://github.com/lucasfdigital/PageClip" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn primary" href="#instalar">Instalar grátis</a>
+    </div>
+  </header>
+
+  <main id="topo">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">Extensão gratuita e open source para Chrome e Edge</p>
+        <h1>Captura <span>pixel-perfect</span> de qualquer elemento</h1>
+        <p class="lede">Passe o mouse, o elemento é destacado, clique e pronto. Sai um PNG só daquele pedaço, sem recorte manual. Região livre e página inteira inclusos.</p>
+        <div class="cta-row">
+          <a class="btn primary big" href="#instalar">Instalar grátis</a>
+          <a class="btn ghost big" href="https://github.com/lucasfdigital/PageClip" target="_blank" rel="noopener">Ver código fonte</a>
+        </div>
+        <ul class="ticks">
+          <li>Sem conta</li>
+          <li>Sem servidor</li>
+          <li>100% local</li>
+        </ul>
+      </div>
+      <figure class="hero-shot">
+        <img src="assets/cover.svg" alt="Demonstração do PageClip destacando um elemento da página" width="1280" height="640" />
+      </figure>
+    </section>
+
+    <section id="recursos" class="section">
+      <h2>Feito para capturar do seu jeito</h2>
+      <div class="grid">
+        <article>
+          <h3>Elemento exato</h3>
+          <p>O recorte usa a escala real da imagem, então bate pixel a pixel mesmo com zoom do navegador ou tela HiDPI.</p>
+        </article>
+        <article>
+          <h3>Região livre</h3>
+          <p>Arraste para escolher qualquer área da página, com folga ajustável ao redor do recorte.</p>
+        </article>
+        <article>
+          <h3>Página inteira</h3>
+          <p>Alvos maiores que a tela são fotografados em partes e costurados sem erro acumulado, com botão Parar.</p>
+        </article>
+        <article>
+          <h3>Navegação no DOM</h3>
+          <p>Setas percorrem pai, filho e irmãos, a trilha de ancestrais mostra o caminho e Espaço trava a seleção.</p>
+        </article>
+        <article>
+          <h3>Galeria local</h3>
+          <p>Histórico com busca, prévia e ações de baixar, copiar, abrir e excluir. Nada sai da sua máquina.</p>
+        </article>
+        <article>
+          <h3>Do seu jeito</h3>
+          <p>PNG, JPEG ou WebP, nome de arquivo com tokens, copiar ao capturar, baixar automático e mais.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="section steps">
+      <h2>Como funciona</h2>
+      <ol>
+        <li><b>Aperte <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></b><span>O modo de seleção abre na aba atual.</span></li>
+        <li><b>Aponte para o elemento</b><span>O destaque mostra tag, seletor e dimensões.</span></li>
+        <li><b>Clique ou aperte <kbd>Enter</kbd></b><span>A imagem cai na galeria, na área de transferência ou em download, como você configurou.</span></li>
+      </ol>
+    </section>
+
+    <section id="atalhos" class="section">
+      <h2>Atalhos</h2>
+      <dl class="shortcuts">
+        <div><dt><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></dt><dd>Abre ou fecha o modo de seleção</dd></div>
+        <div><dt><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd></dt><dd>Captura a página inteira na hora</dd></div>
+        <div><dt><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></dt><dd>Alterna entre elemento, região e página</dd></div>
+        <div><dt><kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd></dt><dd>Navega pela árvore do DOM</dd></div>
+        <div><dt><kbd>Espaço</kbd></dt><dd>Trava ou solta a seleção</dd></div>
+        <div><dt><kbd>Enter</kbd> / <kbd>Esc</kbd></dt><dd>Captura ou sai do modo</dd></div>
+      </dl>
+    </section>
+
+    <section id="privacidade" class="section privacy">
+      <h2>Privacidade de verdade</h2>
+      <p>O PageClip <b>não coleta, não transmite e não compartilha nenhum dado</b>. Sem conta, sem servidor, sem análise de uso. As capturas ficam no IndexedDB local e os ajustes no armazenamento local do navegador. Todo o código é aberto (MIT) e está no GitHub para auditar.</p>
+      <a class="btn ghost" href="https://github.com/lucasfdigital/PageClip/blob/main/PRIVACY.md" target="_blank" rel="noopener">Ler a política completa</a>
+    </section>
+
+    <section id="instalar" class="section install">
+      <h2>Instalar em 1 minuto</h2>
+      <p class="muted">Enquanto a versão da Chrome Web Store está em revisão, instale pelo modo desenvolvedor:</p>
+      <ol>
+        <li>Baixe o <a href="https://github.com/lucasfdigital/PageClip" target="_blank" rel="noopener">repositório</a> e extraia o zip.</li>
+        <li>Abra <code>chrome://extensions</code> e ligue o <b>Modo do desenvolvedor</b>.</li>
+        <li>Clique em <b>Carregar sem compactação</b> e escolha a pasta do projeto.</li>
+      </ol>
+      <p class="muted">Requer Chrome ou Edge 116 ou mais novo.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Crafted by <a href="https://github.com/lucasfdigital" target="_blank" rel="noopener">Lucas Fernandes</a></p>
+    <p class="muted">PageClip é open source sob licença MIT. Marca e código no <a href="https://github.com/lucasfdigital/PageClip" target="_blank" rel="noopener">GitHub</a>.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.55" stop-color="#eef4ff"/>
+      <stop offset="1" stop-color="#dbe7ff"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <filter id="card" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#0a0a0a" flood-opacity="0.14"/>
+    </filter>
+    <filter id="markShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#2563eb" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#bg)"/>
+
+  <!-- marca -->
+  <g>
+    <rect x="90" y="96" width="64" height="64" rx="18" fill="url(#mark)" filter="url(#markShadow)"/>
+    <g fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M105 112v-6a2 2 0 0 1 2-2h6"/>
+      <path d="M133 104h6a2 2 0 0 1 2 2v6"/>
+      <path d="M141 144v6a2 2 0 0 1-2 2h-6"/>
+      <path d="M113 156h-6a2 2 0 0 1-2-2v-6"/>
+      <circle cx="122" cy="128" r="4.5"/>
+    </g>
+    <text x="170" y="141" font-size="34" font-weight="700" letter-spacing="-0.5" fill="#0a0a0a">PageClip</text>
+  </g>
+
+  <!-- título -->
+  <text x="90" y="262" font-size="72" font-weight="700" letter-spacing="-2" fill="#0a0a0a">
+    <tspan x="90" dy="0">Captura pixel-perfect</tspan>
+    <tspan x="90" dy="78">de qualquer elemento</tspan>
+  </text>
+  <text x="90" y="452" font-size="27" fill="#525252">
+    <tspan x="90" dy="0">Aponte, clique, pronto. Região livre e página</tspan>
+    <tspan x="90" dy="38">inteira inclusos, tudo no seu computador.</tspan>
+  </text>
+
+  <!-- pílulas -->
+  <g font-size="18" font-weight="600">
+    <rect x="90" y="516" width="196" height="44" rx="22" fill="#0a0a0a"/>
+    <text x="188" y="545" text-anchor="middle" fill="#ffffff">Alt + Shift + S</text>
+    <rect x="298" y="516" width="218" height="44" rx="22" fill="#dbeafe"/>
+    <text x="407" y="545" text-anchor="middle" fill="#1d4ed8">Sem recorte manual</text>
+    <rect x="528" y="516" width="132" height="44" rx="22" fill="#dbeafe"/>
+    <text x="594" y="545" text-anchor="middle" fill="#1d4ed8">100% local</text>
+  </g>
+
+  <!-- mock da página -->
+  <g filter="url(#card)">
+    <rect x="742" y="72" width="448" height="496" rx="20" fill="#ffffff" stroke="#ebebeb"/>
+    <rect x="766" y="96" width="400" height="48" rx="12" fill="#f7f7f7"/>
+    <circle cx="790" cy="120" r="6" fill="#d4d4d4"/>
+    <circle cx="810" cy="120" r="6" fill="#d4d4d4"/>
+    <circle cx="830" cy="120" r="6" fill="#d4d4d4"/>
+    <rect x="852" y="108" width="290" height="24" rx="6" fill="#ffffff" stroke="#ebebeb"/>
+    <text x="864" y="126" font-size="14" fill="#737373">seusite.com.br</text>
+    <rect x="766" y="160" width="400" height="384" rx="12" fill="#fbfbfb" stroke="#f0f0f0"/>
+    <rect x="788" y="184" width="200" height="22" rx="4" fill="#ebebeb"/>
+    <rect x="788" y="218" width="356" height="12" rx="4" fill="#f0f0f0"/>
+    <rect x="788" y="238" width="300" height="12" rx="4" fill="#f0f0f0"/>
+    <rect x="902" y="300" width="220" height="110" rx="6" fill="#2563eb" opacity="0.08" stroke="#2563eb" stroke-width="2.5"/>
+    <rect x="900" y="268" width="196" height="26" rx="6" fill="#2563eb"/>
+    <text x="910" y="287" font-size="14" font-weight="700" fill="#ffffff">article · 960 × 540</text>
+    <text x="1090" y="500" font-size="34" fill="#0a0a0a" opacity="0.85">➤</text>
+  </g>
+</svg>
