@@ -1,49 +1,51 @@
-name: Reportar um bug
-description: Algo não funciona como deveria
+name: Reportar um bug / Report a bug
+description: Algo não funciona como deveria / Something doesn't work as it should
 labels: ["bug"]
 body:
   - type: markdown
     attributes:
-      value: Valeu por reportar! Quanto mais detalhe, mais rápido dá para corrigir.
+      value: |
+        Valeu por reportar! Quanto mais detalhe, mais rápido dá para corrigir.
+        Thanks for reporting! The more detail, the faster it can be fixed. You can write in English or Portuguese.
   - type: textarea
     id: oque
     attributes:
-      label: O que aconteceu?
-      description: Descreva o problema e o que você esperava que acontecesse.
+      label: O que aconteceu? / What happened?
+      description: Descreva o problema e o que você esperava. / Describe the problem and what you expected.
     validations:
       required: true
   - type: textarea
     id: passos
     attributes:
-      label: Passos para reproduzir
+      label: Passos para reproduzir / Steps to reproduce
       placeholder: |
-        1. Abri o site ...
-        2. Apertei Alt+Shift+S ...
-        3. Cliquei em ...
+        1. Abri o site ... / Opened the site ...
+        2. Apertei Alt+Shift+S ... / Pressed Alt+Shift+S ...
+        3. Cliquei em ... / Clicked on ...
     validations:
       required: true
   - type: input
     id: site
     attributes:
-      label: Em qual site aconteceu?
+      label: Em qual site aconteceu? / Which site?
       placeholder: https://...
   - type: dropdown
     id: navegador
     attributes:
-      label: Navegador
+      label: Navegador / Browser
       options:
         - Chrome
         - Edge
-        - Outro (diga abaixo)
+        - Outro / Other
     validations:
       required: true
   - type: input
     id: versao
     attributes:
-      label: Versão do navegador e do PageClip
+      label: Versão do navegador e do PageClip / Browser and PageClip version
       placeholder: "Chrome 130, PageClip 1.0.0"
   - type: textarea
     id: prints
     attributes:
-      label: Prints ou erros do console
-      description: Arraste imagens aqui. Erros do console ajudam muito (F12, aba Console).
+      label: Prints ou erros do console / Screenshots or console errors
+      description: Arraste imagens aqui. F12, aba Console. / Drag images here. F12, Console tab.

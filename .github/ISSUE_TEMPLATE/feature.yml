@@ -1,22 +1,22 @@
-name: Sugerir uma ideia
-description: Uma função nova ou uma melhoria
+name: Sugerir uma ideia / Suggest an idea
+description: Uma função nova ou uma melhoria / A new feature or an improvement
 labels: ["enhancement"]
 body:
   - type: textarea
     id: problema
     attributes:
-      label: Qual problema isso resolve?
-      placeholder: "Quando eu tento ..., eu preciso ..."
+      label: Qual problema isso resolve? / What problem does it solve?
+      placeholder: "Quando eu tento ..., eu preciso ... / When I try to ..., I need to ..."
     validations:
       required: true
   - type: textarea
     id: ideia
     attributes:
-      label: Como você imagina que funcione?
+      label: Como você imagina que funcione? / How do you picture it working?
     validations:
       required: true
   - type: textarea
     id: extra
     attributes:
-      label: Algo mais?
-      description: Exemplos, prints, outras extensões que fazem parecido.
+      label: Algo mais? / Anything else?
+      description: Exemplos, prints, outras extensões parecidas. / Examples, screenshots, similar extensions.

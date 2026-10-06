@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Dúvidas e conversas
+  - name: Dúvidas e conversas / Questions and discussions
     url: https://github.com/lucasfdigital/PageClip/discussions
-    about: Para perguntas e ideias soltas, use as Discussões.
-  - name: Falha de segurança
+    about: Para perguntas e ideias soltas, use as Discussões. / For questions and loose ideas, use Discussions.
+  - name: Falha de segurança / Security vulnerability
     url: https://github.com/lucasfdigital/PageClip/security/advisories/new
-    about: Não abra issue pública. Reporte de forma privada por aqui.
+    about: Não abra issue pública, reporte em privado. / Don't open a public issue, report it privately.
