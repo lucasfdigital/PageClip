@@ -12,7 +12,7 @@
   "dependencies": {
     "@remixicon/react": "^4.9.0",
     "@tailwindcss/postcss": "^4.3.3",
-    "motion": "^12.43.0",
+    "motion": "^14.0.0",
     "react": "^19.2.8",
     "react-aria-components": "^1.21.1",
     "react-dom": "^19.2.8",
