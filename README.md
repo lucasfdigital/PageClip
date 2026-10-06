@@ -2,6 +2,8 @@
 
 # PageClip
 
+🇧🇷 **Português** · 🇺🇸 [English](README.en.md)
+
 [![GitHub stars](https://img.shields.io/github/stars/lucasfdigital/PageClip?style=social)](https://github.com/lucasfdigital/PageClip/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/lucasfdigital/PageClip?style=social)](https://github.com/lucasfdigital/PageClip/network/members)
 [![Last commit](https://img.shields.io/github/last-commit/lucasfdigital/PageClip)](https://github.com/lucasfdigital/PageClip/commits/main)
@@ -20,9 +22,11 @@ que a tela**: nesse caso a extensão rola a página em partes e costura as fotos
 
 ## Instalar
 
+**Jeito mais fácil:** baixe o `.zip` da [versão mais recente](https://github.com/lucasfdigital/PageClip/releases/latest), descompacte e siga os passos abaixo escolhendo a pasta descompactada.
+
 1. Abra `chrome://extensions` (ou `edge://extensions`).
 2. Ligue o **Modo do desenvolvedor**.
-3. Clique em **Carregar sem compactação** e escolha esta pasta.
+3. Clique em **Carregar sem compactação** e escolha esta pasta (ou a pasta do `.zip`).
 
 O content script e o service worker não precisam de build, bundler nem `npm install`,
 é JavaScript de módulos ES puro. Requer Chrome/Edge 116 ou mais novo.
