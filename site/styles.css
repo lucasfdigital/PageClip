@@ -45,9 +45,19 @@ a { color: var(--accent-dark); }
   border-bottom: 1px solid var(--line);
 }
 
-.stars { display: inline-flex; align-items: center; }
+.btn svg { flex: none; }
 
-.stars img { display: block; height: 22px; }
+.btn .count {
+  display: inline-block;
+  min-width: 26px;
+  padding: 1px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
 
 .brand {
   display: inline-flex;
