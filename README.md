@@ -1,6 +1,6 @@
 ![Capa do PageClip](assets/cover.png)
 
-# PageClip
+# <img src="icons/logo.svg" width="40" height="40" align="left" alt="PageClip logo"> PageClip
 
 🇧🇷 **Português** · 🇺🇸 [English](README.en.md)
 
