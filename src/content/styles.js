@@ -385,19 +385,34 @@ button {
 .stars {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 9px;
+  gap: 6px;
+  padding: 4px 10px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 8px;
   background: var(--bg);
-  color: var(--muted);
-  font-size: 11px;
-  font-variant-numeric: tabular-nums;
+  box-shadow: var(--shadow-xs);
+  color: var(--text);
+  font-size: 11.5px;
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .stars[hidden] { display: none; }
-.stars i { color: var(--warn); font-style: normal; font-size: 12px; line-height: 1; }
+.brand:hover .stars { border-color: var(--line-hover); }
+.stars svg { flex: none; display: block; }
+
+.stars .count {
+  display: inline-block;
+  min-width: 22px;
+  padding: 0 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
 
 .side-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
 .side-body::-webkit-scrollbar { width: 10px; }
