@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  extensao:
+    name: Extensão
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: manifest.json é um JSON válido
+        run: node -e "JSON.parse(require('fs').readFileSync('manifest.json','utf8'))"
+      - name: Sintaxe dos scripts da extensão
+        run: |
+          find src -name '*.js' -not -path 'src/hub-boardui/*' -print0 \
+            | xargs -0 -n1 node --check
+
+  hub:
+    name: Hub (React)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hub-react
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: hub-react/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - name: src/hub-boardui está atualizado
+        working-directory: .
+        run: |
+          if [ -n "$(git status --porcelain src/hub-boardui)" ]; then
+            echo "::error::O src/hub-boardui está desatualizado. Rode 'npm run build' dentro de hub-react/ e commite o resultado."
+            git status --short src/hub-boardui
+            exit 1
+          fi
