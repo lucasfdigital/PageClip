@@ -1,3 +1,5 @@
+![Capa do PageClip](assets/cover.svg)
+
 # PageClip
 
 [![GitHub stars](https://img.shields.io/github/stars/lucasfdigital/PageClip?style=social)](https://github.com/lucasfdigital/PageClip/stargazers)
