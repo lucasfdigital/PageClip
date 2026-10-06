@@ -158,6 +158,7 @@ main { display: block; }
   font-size: clamp(38px, 5vw, 60px);
   line-height: 1.05;
   letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
 .hero h1 span { color: var(--accent); }
@@ -352,6 +353,11 @@ footer .muted { font-size: 14px; }
   .nav { padding: 10px 16px; gap: 12px; }
   .nav-cta .ghost { display: none; }
   .section { padding: 40px 18px; }
-  .hero { padding: 40px 18px; }
+  .hero { padding: 36px 18px; gap: 32px; }
+  .kicker { font-size: 12.5px; padding: 6px 14px; max-width: 100%; }
+  .hero h1 { font-size: 34px; letter-spacing: -0.02em; }
+  .lede { font-size: 17px; }
+  .cta-row .btn { flex: 1 1 100%; }
+  .ticks { font-size: 13.5px; gap: 6px 16px; }
   .shortcuts > div { flex-direction: column; gap: 6px; }
 }
