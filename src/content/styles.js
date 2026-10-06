@@ -372,6 +372,7 @@ button {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-inline-start: -6px;
   padding: 4px 8px;
   border-radius: 8px;
   text-align: left;

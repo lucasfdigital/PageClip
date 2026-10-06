@@ -340,7 +340,7 @@ chrome.runtime.onMessage.addListener(
         return { ok: true };
 
       case ToBackground.GET_STARS:
-        return { ok: true, data: await getStars() };
+        return await getStars();
 
       default:
         return undefined;
