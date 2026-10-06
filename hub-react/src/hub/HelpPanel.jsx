@@ -53,7 +53,7 @@ export default function HelpPanel() {
       <Card title="Como o recorte é feito">
         <p>
           O navegador só permite fotografar a parte visível da aba. O PageClip mede o elemento,
-          tira a foto, e recorta usando a escala real da imagem — por isso o resultado bate pixel a
+          tira a foto, e recorta usando a escala real da imagem, por isso o resultado bate pixel a
           pixel mesmo com zoom do navegador ou tela HiDPI.
         </p>
         <p>
@@ -64,11 +64,11 @@ export default function HelpPanel() {
 
       <Card title="O que ainda não dá">
         <ul>
-          <li>Escolher elementos <em>dentro</em> de um iframe de outro domínio — mas dá para selecionar o iframe inteiro, e a imagem sai certa.</li>
+          <li>Escolher elementos <em>dentro</em> de um iframe de outro domínio, mas dá para selecionar o iframe inteiro, e a imagem sai certa.</li>
           <li>Capturar páginas internas do navegador (<code className="rounded bg-background-secondary-default px-1 font-mono text-body-2-regular">chrome://</code>, a loja de extensões, PDFs).</li>
           <li>Conteúdo que só existe depois de passar o mouse: o destaque não dispara o <code className="rounded bg-background-secondary-default px-1 font-mono text-body-2-regular">:hover</code> da página.</li>
           <li>Imagens com carregamento preguiçoso só entram na foto se já tiverem aparecido: role a página até o fim antes de capturar e, se ainda saírem vazias, aumente a espera entre as fotos.</li>
-          <li>Páginas de rolagem infinita não têm fim — a captura para em 80 telas e avisa. Você também pode apertar <Kbd>Esc</Kbd> ou <b>Parar</b> a qualquer momento e ficar com o pedaço já fotografado.</li>
+          <li>Páginas de rolagem infinita não têm fim, a captura para em 80 telas e avisa. Você também pode apertar <Kbd>Esc</Kbd> ou <b>Parar</b> a qualquer momento e ficar com o pedaço já fotografado.</li>
         </ul>
       </Card>
 

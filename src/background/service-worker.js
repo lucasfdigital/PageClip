@@ -150,12 +150,12 @@ function describeFailure(error, tab) {
 async function flashError(tabId, message) {
   if (!tabId) return;
   try {
-    await chrome.action.setTitle({ tabId, title: `PageClip — ${message}` });
+    await chrome.action.setTitle({ tabId, title: `PageClip, ${message}` });
     await chrome.action.setBadgeBackgroundColor({ tabId, color: '#e5484d' });
     await chrome.action.setBadgeText({ tabId, text: '!' });
     await sleep(4000);
     await chrome.action.setBadgeText({ tabId, text: '' });
-    await chrome.action.setTitle({ tabId, title: 'PageClip — capturar elemento (Alt+Shift+S)' });
+    await chrome.action.setTitle({ tabId, title: 'PageClip, capturar elemento (Alt+Shift+S)' });
   } catch {
     // A aba pode ter sido fechada enquanto o aviso estava na tela.
   }

@@ -131,9 +131,9 @@ export default function SettingsForm() {
             onSelectionChange={(key) => update({ format: String(key) })}
             className="w-[300px]"
           >
-            <SelectItem id="png">PNG — sem perdas, com transparência</SelectItem>
-            <SelectItem id="jpeg">JPEG — arquivo menor, sem transparência</SelectItem>
-            <SelectItem id="webp">WebP — menor ainda</SelectItem>
+            <SelectItem id="png">PNG, sem perdas, com transparência</SelectItem>
+            <SelectItem id="jpeg">JPEG, arquivo menor, sem transparência</SelectItem>
+            <SelectItem id="webp">WebP, menor ainda</SelectItem>
           </Select>
         </Row>
 
@@ -222,7 +222,7 @@ export default function SettingsForm() {
           <code className="rounded bg-background-secondary-default px-1 font-mono text-body-2-regular">{'{time}'}</code>{' '}
           <code className="rounded bg-background-secondary-default px-1 font-mono text-body-2-regular">{'{w}'}</code>{' '}
           <code className="rounded bg-background-secondary-default px-1 font-mono text-body-2-regular">{'{h}'}</code>{' '}
-          — resultado: <b className="font-mono font-medium text-text-primary">{preview}</b>
+         , resultado: <b className="font-mono font-medium text-text-primary">{preview}</b>
         </p>
 
         <Row label="Capturas guardadas na galeria">
