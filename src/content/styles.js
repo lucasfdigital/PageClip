@@ -368,19 +368,16 @@ button {
 }
 
 .side > header .brand {
-  flex: 1;
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-inline-start: -6px;
-  padding: 4px 8px;
-  border-radius: 8px;
-  text-align: left;
+  margin-inline-start: -2px;
+  padding: 4px 2px;
 }
 
-.side > header .brand:hover { background: var(--bg-soft); }
 .side > header .brand svg { flex: none; display: block; }
 .side > header .brand b { font-size: 13px; font-weight: 620; letter-spacing: -0.01em; }
+.side > header .stars { margin-inline-start: auto; }
 
 .stars {
   display: inline-flex;
@@ -398,7 +395,7 @@ button {
 }
 
 .stars[hidden] { display: none; }
-.brand:hover .stars { border-color: var(--line-hover); }
+button.stars:hover { background: var(--bg-soft); border-color: var(--line-hover); }
 .stars svg { flex: none; display: block; }
 
 .stars .count {
