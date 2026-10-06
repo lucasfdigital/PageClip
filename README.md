@@ -1,4 +1,4 @@
-![Capa do PageClip](assets/cover.svg)
+![Capa do PageClip](assets/cover.png)
 
 # PageClip
 
