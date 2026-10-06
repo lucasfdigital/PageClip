@@ -95,16 +95,16 @@ function CaptureCard({ item, thumbUrl, onRemove }) {
       </div>
 
       <div className="flex gap-1.5 p-3.5">
-        <Button variant="secondary" size="small" onPress={download} className="flex-1">
+        <Button variant="secondary" size="small" onClick={download} className="flex-1">
           Baixar
         </Button>
-        <Button variant="secondary" size="small" onPress={copy} className="flex-1">
+        <Button variant="secondary" size="small" onClick={copy} className="flex-1">
           {copyLabel}
         </Button>
-        <Button variant="secondary" size="small" onPress={open} className="flex-1">
+        <Button variant="secondary" size="small" onClick={open} className="flex-1">
           Abrir
         </Button>
-        <Button variant="danger" size="small" onPress={() => onRemove(item)} className="flex-1">
+        <Button variant="danger" size="small" onClick={() => onRemove(item)} className="flex-1">
           Excluir
         </Button>
       </div>
@@ -193,7 +193,7 @@ export default function Gallery() {
             leadingIcon={RiSearchLine}
             className="w-[280px]"
           />
-          <Button variant="danger" size="small" leadingIcon={RiDeleteBinLine} onPress={clear} isDisabled={!captures.length}>
+          <Button variant="danger" size="small" leadingIcon={RiDeleteBinLine} onClick={clear} disabled={!captures.length}>
             Limpar galeria
           </Button>
         </div>

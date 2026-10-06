@@ -274,10 +274,10 @@ export default function SettingsForm() {
       </Fieldset>
 
       <div className="flex items-center gap-2.5">
-        <Button variant="secondary" size="small" leadingIcon={RiKeyboardLine} onPress={openShortcuts}>
+        <Button variant="secondary" size="small" leadingIcon={RiKeyboardLine} onClick={openShortcuts}>
           Editar atalhos do teclado
         </Button>
-        <Button variant="danger" size="small" leadingIcon={RiRefreshLine} onPress={reset}>
+        <Button variant="danger" size="small" leadingIcon={RiRefreshLine} onClick={reset}>
           Restaurar padrões
         </Button>
         <span aria-live="polite" className="text-body-2-regular text-text-secondary">
