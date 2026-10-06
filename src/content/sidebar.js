@@ -14,7 +14,18 @@
 const TEMPLATE = `
 <aside class="side" data-on="0">
   <header>
-    <b>Opções</b>
+    <button class="brand" data-action="github" title="Abrir o PageClip no GitHub">
+      <svg width="20" height="20" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+        <rect width="30" height="30" rx="8" fill="#2563EB"/>
+        <path d="M8.25 12V9.75C8.25 9.35218 8.40804 8.97064 8.68934 8.68934C8.97064 8.40804 9.35218 8.25 9.75 8.25H12" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18 8.25H20.25C20.6478 8.25 21.0294 8.40804 21.3107 8.68934C21.592 8.97064 21.75 9.35218 21.75 9.75V12" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21.75 18V20.25C21.75 20.6478 21.592 21.0294 21.3107 21.3107C21.0294 21.592 20.6478 21.75 20.25 21.75H18" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 21.75H9.75C9.35218 21.75 8.97064 21.592 8.68934 21.3107C8.40804 21.0294 8.25 20.6478 8.25 20.25V18" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="15" cy="15" r="2.4" stroke="white" stroke-width="2.4"/>
+      </svg>
+      <b>PageClip</b>
+      <span class="stars" hidden><i>★</i><span></span></span>
+    </button>
     <button class="icon" data-action="close-side" title="Fechar painel">✕</button>
   </header>
 
@@ -75,6 +86,8 @@ export class Sidebar {
 
     this.#el = {
       side: root.querySelector('.side'),
+      stars: root.querySelector('.side .stars'),
+      starsCount: root.querySelector('.side .stars span:last-child'),
       history: root.querySelector('.history'),
       historyBlank: root.querySelector('.side .blank.small'),
       fields: [...root.querySelectorAll('.side [name]')]
@@ -90,6 +103,14 @@ export class Sidebar {
     this.#open = force ?? !this.#open;
     this.#el.side.dataset.on = this.#open ? '1' : '0';
     return this.#open;
+  }
+
+  /** Mostra a contagem de stars do GitHub; sem número, o selo some. */
+  setStars(count) {
+    if (!this.#el.stars) return;
+    const valid = Number.isFinite(count);
+    this.#el.stars.hidden = !valid;
+    if (valid) this.#el.starsCount.textContent = String(count);
   }
 
   /** Preenche os controles de ajuste rápido. */

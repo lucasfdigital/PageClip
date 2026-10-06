@@ -19,7 +19,11 @@ export const ToBackground = Object.freeze({
   /** Marca a aba como em modo de seleção (badge do ícone). */
   SET_PICKING: 'bg:set-picking',
   /** Abre a página do hub numa aba nova. */
-  OPEN_HUB: 'bg:open-hub'
+  OPEN_HUB: 'bg:open-hub',
+  /** Abre o repositório do PageClip no GitHub numa aba nova. */
+  OPEN_GITHUB: 'bg:open-github',
+  /** Devolve a contagem de stars do GitHub (com cache local de 12h). */
+  GET_STARS: 'bg:get-stars'
 });
 
 /** Mensagens que o content script atende. */

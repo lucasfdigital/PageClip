@@ -631,6 +631,9 @@ class PageClip {
       case 'hub':
         askBackground(ToBackground.OPEN_HUB).catch(() => {});
         break;
+      case 'github':
+        askBackground(ToBackground.OPEN_GITHUB).catch(() => {});
+        break;
       default:
         break;
     }
@@ -657,8 +660,19 @@ class PageClip {
   #setSidebar(open) {
     const state = this.#overlay.sidebar.toggle(open);
     this.#overlay.setSidebarState(state);
-    if (state) this.#refreshHistory();
+    if (state) {
+      this.#refreshHistory();
+      this.#refreshStars();
+    }
     return state;
+  }
+
+  async #refreshStars() {
+    try {
+      this.#overlay?.sidebar?.setStars(await askBackground(ToBackground.GET_STARS));
+    } catch {
+      // Sem contagem, o selo de stars some sozinho.
+    }
   }
 
   async #changeSetting(name, value) {

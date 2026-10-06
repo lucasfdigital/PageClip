@@ -272,6 +272,39 @@ function openHub(hash = '') {
   return chrome.tabs.create({ url: chrome.runtime.getURL(HUB_PAGE) + hash });
 }
 
+const STARS_TTL = 12 * 3_600_000;
+
+/**
+ * Contagem de stars do GitHub, com cache local de 12h. Falha silenciosa:
+ * sem rede, devolve o último valor guardado (ou null).
+ */
+async function getStars() {
+  try {
+    const cached = await chrome.storage.local.get({ stars: null });
+    if (cached.stars?.ts && Date.now() - cached.stars.ts < STARS_TTL) return cached.stars.count;
+  } catch {
+    /* sem cache, tenta a rede */
+  }
+
+  try {
+    const response = await fetch('https://api.github.com/repos/lucasfdigital/PageClip');
+    if (!response.ok) throw new Error(`stars: ${response.status}`);
+    const count = Number((await response.json()).stargazers_count);
+    if (Number.isFinite(count)) {
+      await chrome.storage.local.set({ stars: { count, ts: Date.now() } });
+      return count;
+    }
+  } catch {
+    /* sem rede: cai para o cache antigo */
+  }
+
+  try {
+    return (await chrome.storage.local.get({ stars: null })).stars?.count ?? null;
+  } catch {
+    return null;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Roteador de mensagens
 // ---------------------------------------------------------------------------
@@ -301,6 +334,13 @@ chrome.runtime.onMessage.addListener(
       case ToBackground.OPEN_HUB:
         await openHub(payload?.hash || '');
         return { ok: true };
+
+      case ToBackground.OPEN_GITHUB:
+        await chrome.tabs.create({ url: 'https://github.com/lucasfdigital/PageClip' });
+        return { ok: true };
+
+      case ToBackground.GET_STARS:
+        return { ok: true, data: await getStars() };
 
       default:
         return undefined;

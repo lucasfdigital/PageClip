@@ -367,7 +367,36 @@ button {
   border-bottom: 1px solid var(--line);
 }
 
-.side > header b { flex: 1; font-size: 13px; font-weight: 620; letter-spacing: -0.01em; }
+.side > header .brand {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.side > header .brand:hover { background: var(--bg-soft); }
+.side > header .brand svg { flex: none; display: block; }
+.side > header .brand b { font-size: 13px; font-weight: 620; letter-spacing: -0.01em; }
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.stars[hidden] { display: none; }
+.stars i { color: var(--warn); font-style: normal; font-size: 12px; line-height: 1; }
 
 .side-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
 .side-body::-webkit-scrollbar { width: 10px; }
