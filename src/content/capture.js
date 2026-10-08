@@ -190,6 +190,15 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
             // Dimensiona pelo alvo medido agora (target), não pelo `first` do
             // início: se o elemento mudou de tamanho entre as duas medições,
             // o canvas herdava o tamanho antigo e sobrava faixa vazia.
+            console.debug('[PageClip] diagnóstico', {
+              first: [first.width, first.height],
+              target: [target.width, target.height],
+              scale,
+              outScale,
+              bitmap: [bitmap.width, bitmap.height],
+              viewport: viewportWidth(),
+              padding: options.padding,
+            });
             const fitted = fitToCanvasLimits(target.width, target.height, outScale);
             if (fitted.scale < outScale) {
               warnings.push('A imagem foi reduzida para caber no limite de canvas do navegador.');
@@ -239,7 +248,12 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
       warnings.push('A página mudou de tamanho durante a captura; confira o resultado.');
     }
 
+    console.debug('[PageClip] resultado', {
+      canvas: [canvas.width, canvas.height],
+      reach: [reach.right, reach.bottom],
+    });
     const blob = await canvas.convertToBlob({ type: MIME[options.format], quality: options.quality });
+    if (!blob || blob.size === 0) throw new Error('A imagem saiu vazia, tente de novo.');
     return { blob, width: canvas.width, height: canvas.height, warnings, stopped };
   } finally {
     pageStyles?.dispose();
