@@ -330,6 +330,17 @@ button {
   user-select: text;
 }
 
+.dbg {
+  margin-top: 4px;
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 10px;
+  word-break: break-all;
+  user-select: text;
+}
+
+.dbg:empty { display: none; }
+
 /* ------------------------------------------------------------ painel lateral */
 
 .side {

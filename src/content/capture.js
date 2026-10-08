@@ -128,6 +128,14 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
 
     const first = measure();
     if (first.width < 1 || first.height < 1) throw new Error('O alvo não tem área visível para capturar.');
+    // Números crus para diagnóstico (vão para o popup de resultado).
+    const debug = {
+      first: [round1(first.width), round1(first.height)],
+      padding: options.padding,
+      target0: null,
+      scale: null,
+      outScale: null,
+    };
 
     const view = visibleWindow(scroller);
     if (view.width < MIN_WINDOW || view.height < MIN_WINDOW) {
@@ -188,6 +196,9 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
 
           if (!canvas) {
             outScale = options.scale === 'css' ? 1 : scale;
+            debug.target0 = [round1(target.width), round1(target.height)];
+            debug.scale = round1(scale);
+            debug.outScale = round1(outScale);
             // Dimensiona pelo alvo medido agora (target), não pelo `first` do
             // início: se o elemento mudou de tamanho entre as duas medições,
             // o canvas herdava o tamanho antigo e sobrava faixa vazia.
@@ -256,7 +267,9 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
     });
     const blob = await canvas.convertToBlob({ type: MIME[options.format], quality: options.quality });
     if (!blob || blob.size === 0) throw new Error('A imagem saiu vazia, tente de novo.');
-    return { blob, width: canvas.width, height: canvas.height, warnings, stopped };
+    debug.reach = [round1(reach.right), round1(reach.bottom)];
+    debug.canvas = [canvas.width, canvas.height];
+    return { blob, width: canvas.width, height: canvas.height, warnings, stopped, debug };
   } finally {
     pageStyles?.dispose();
     restoreScroll();
@@ -421,6 +434,10 @@ function snapshotScroll(scroller) {
 
 function rect(left, top, width, height) {
   return { left, top, width, height, right: left + width, bottom: top + height };
+}
+
+function round1(value) {
+  return Math.round(Number(value) * 10) / 10;
 }
 
 function inflate(domRect, padding = 0) {

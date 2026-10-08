@@ -50,6 +50,7 @@ const TEMPLATE = `
   <div class="body">
     <img class="shot" alt="">
     <div class="name"></div>
+    <div class="dbg"></div>
     <div class="warn"></div>
     <div class="acts">
       <button class="act" data-primary="1" data-action="download">Baixar</button>
@@ -142,6 +143,7 @@ export class Overlay {
       shot: this.#root.querySelector('.shot'),
       dims: this.#root.querySelector('.dims'),
       name: this.#root.querySelector('.name'),
+      dbg: this.#root.querySelector('.dbg'),
       warn: this.#root.querySelector('.warn'),
       selectorButton: this.#root.querySelector('[data-action="copy-selector"]'),
       progress: this.#root.querySelector('.progress'),
@@ -250,6 +252,11 @@ export class Overlay {
     this.#el.shot.alt = `Prévia de ${shot.filename}`;
     this.#el.dims.textContent = `${shot.width} × ${shot.height}`;
     this.#el.name.textContent = shot.filename;
+    // Linha temporária de diagnóstico: números crus da captura.
+    const debug = shot.debug;
+    this.#el.dbg.textContent = debug
+      ? `alvo ${debug.first?.join('×')} · foto ${debug.target0?.join('×')} · escala ${debug.scale} · pintado ${debug.reach?.join('×')}`
+      : '';
     this.#el.selectorButton.hidden = !shot.selector;
 
     this.#el.warn.replaceChildren(
