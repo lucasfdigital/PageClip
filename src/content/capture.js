@@ -39,6 +39,7 @@ const MIN_WINDOW = 32;
 /**
  * @typedef {object} CaptureOptions
  * @property {number} padding folga em px CSS
+ * @property {number} radius cantos arredondados em px CSS
  * @property {'png'|'jpeg'|'webp'} format
  * @property {number} quality
  * @property {string} matte cor sob formatos sem alfa
@@ -242,6 +243,7 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
       warnings.push('Parte do alvo não pôde ser alcançada por rolagem e ficou fora da imagem.');
     }
     canvas = cropTo(canvas, reach.right * outScale, reach.bottom * outScale);
+    canvas = roundCorners(canvas, (options.radius ?? 0) * outScale);
 
     const last = measure();
     if (!stopped && (Math.abs(last.width - first.width) > 8 || Math.abs(last.height - first.height) > 8)) {
@@ -271,6 +273,27 @@ function cropTo(canvas, width, height) {
   const cropped = new OffscreenCanvas(w, h);
   cropped.getContext('2d').drawImage(canvas, 0, 0);
   return cropped;
+}
+
+/**
+ * Aplica cantos arredondados na imagem final.
+ * @param {number} radius raio em pixels da imagem final (já com escala)
+ *
+ * No PNG os cantos ficam transparentes; no JPEG ficam da cor de fundo (matte),
+ * que já foi pintada no canvas antes do conteúdo.
+ */
+function roundCorners(canvas, radius) {
+  const r = Math.max(0, Math.min(radius, canvas.width / 2, canvas.height / 2));
+  if (r < 0.5) return canvas;
+
+  const rounded = new OffscreenCanvas(canvas.width, canvas.height);
+  const context = rounded.getContext('2d');
+  context.drawImage(canvas, 0, 0);
+  context.globalCompositeOperation = 'destination-in';
+  context.beginPath();
+  context.roundRect(0, 0, canvas.width, canvas.height, r);
+  context.fill();
+  return rounded;
 }
 
 /** Desenha o pedaço visível do alvo na posição correta da imagem final. */

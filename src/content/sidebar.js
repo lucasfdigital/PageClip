@@ -58,6 +58,11 @@ const TEMPLATE = `
         <input type="number" name="padding" min="0" max="200" step="2"><i>px</i>
       </label>
 
+      <label class="field">
+        <span>Cantos</span>
+        <input type="number" name="radius" min="0" max="200" step="2"><i>px</i>
+      </label>
+
       <label class="opt"><input type="checkbox" name="downloadOnCapture"><span>Baixar ao capturar</span></label>
       <label class="opt"><input type="checkbox" name="copyOnCapture"><span>Copiar ao capturar</span></label>
       <label class="opt"><input type="checkbox" name="saveToGallery"><span>Guardar na galeria</span></label>

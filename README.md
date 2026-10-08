@@ -173,6 +173,8 @@ encerrado a qualquer momento e a resposta ficaria mentindo. Em vez disso o servi
   vazias na costura.
 - **Folga ao redor do elemento**, respiro em pixels; com PNG a folga que cai fora da página fica
   transparente.
+- **Cantos arredondados**, raio em pixels; no PNG os cantos ficam transparentes, no JPEG ficam
+  da cor de fundo.
 - **Nome do arquivo**, template com `{site}` `{tag}` `{mode}` `{date}` `{time}` `{w}` `{h}`.
 
 ## Limitações conhecidas

@@ -14,7 +14,9 @@ export const DEFAULTS = Object.freeze({
   /** Qualidade de jpeg/webp (0.4 a 1). */
   quality: 0.92,
   /** Folga em pixels CSS ao redor do elemento. */
-  padding: 10,
+  padding: 0,
+  /** Raio dos cantos arredondados, em pixels CSS. */
+  radius: 10,
   /** Cor de fundo aplicada quando o formato não tem alfa. */
   matte: '#ffffff',
   /** device = resolução física da tela; css = 1 pixel CSS por pixel. */
@@ -94,6 +96,7 @@ export function normalize(raw = {}) {
     format: pick(raw.format, FORMATS, DEFAULTS.format),
     quality: clamp(number(raw.quality, DEFAULTS.quality), 0.4, 1),
     padding: Math.round(clamp(number(raw.padding, DEFAULTS.padding), 0, 200)),
+    radius: Math.round(clamp(number(raw.radius, DEFAULTS.radius), 0, 200)),
     matte: color(raw.matte, DEFAULTS.matte),
     scale: pick(raw.scale, SCALES, DEFAULTS.scale),
     copyOnCapture: Boolean(raw.copyOnCapture),

@@ -180,6 +180,22 @@ export default function SettingsForm() {
           </span>
         </Row>
 
+        <Row label="Cantos arredondados">
+          <span className="flex items-center gap-2">
+            <input
+              type="number"
+              aria-label="Cantos arredondados"
+              min="0"
+              max="200"
+              step="1"
+              value={draft.radius}
+              onChange={(event) => update({ radius: event.target.value })}
+              className={numberInputClass}
+            />
+            <em className="text-body-2-regular text-text-secondary not-italic">px</em>
+          </span>
+        </Row>
+
         {lossy && (
           <Row label="Cor de fundo (formatos sem transparência)">
             <input
