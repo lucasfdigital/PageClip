@@ -171,7 +171,10 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
 
           if (!canvas) {
             outScale = options.scale === 'css' ? 1 : scale;
-            const fitted = fitToCanvasLimits(first.width, first.height, outScale);
+            // Dimensiona pelo alvo medido agora (target), não pelo `first` do
+            // início: se o elemento mudou de tamanho entre as duas medições,
+            // o canvas herdava o tamanho antigo e sobrava faixa vazia.
+            const fitted = fitToCanvasLimits(target.width, target.height, outScale);
             if (fitted.scale < outScale) {
               warnings.push('A imagem foi reduzida para caber no limite de canvas do navegador.');
               outScale = fitted.scale;
@@ -203,14 +206,17 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
 
     if (!canvas) throw new Error(stopped ? 'Captura cancelada.' : 'Nenhuma parte do alvo pôde ser fotografada.');
 
+    // O canvas nasce do tamanho medido no primeiro tile, mas cada pedaço é
+    // pintado pela medição fresca da sua hora. Se o alvo mudou no meio do
+    // caminho, sobraria faixa vazia: por isso o recorte até o que foi
+    // realmente pintado (reach) acontece sempre, não só ao interromper.
+    // Melhor entregar o pedaço já fotografado do que jogar fora o trabalho.
     if (stopped) {
-      // Melhor entregar o pedaço já fotografado do que jogar fora o trabalho:
-      // recortamos o canvas até onde a costura chegou.
       warnings.push('Captura interrompida — a imagem tem só o que já havia sido fotografado.');
-      canvas = cropTo(canvas, reach.right * outScale, reach.bottom * outScale);
     } else if (reach.right < first.width - 2 || reach.bottom < first.height - 2) {
       warnings.push('Parte do alvo não pôde ser alcançada por rolagem e ficou fora da imagem.');
     }
+    canvas = cropTo(canvas, reach.right * outScale, reach.bottom * outScale);
 
     const last = measure();
     if (!stopped && (Math.abs(last.width - first.width) > 8 || Math.abs(last.height - first.height) > 8)) {
