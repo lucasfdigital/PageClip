@@ -509,12 +509,20 @@ class PageClip {
         onProgress: (done, total) => this.#overlay.setProgress(done, total)
       };
 
+      // Trava o tamanho do alvo agora (pós-clique, sem `:active` pressionado):
+      // é o mesmo número que a etiqueta mostrava no hover.
+      const frozen = mode === Mode.ELEMENT && element
+        ? element.getBoundingClientRect()
+        : null;
+
       const result =
         mode === Mode.PAGE
           ? await capturePage(options)
           : mode === Mode.REGION
             ? await captureRegion(this.#region, options)
-            : await captureElement(element, options);
+            : await captureElement(element, options, frozen
+              ? { width: frozen.width, height: frozen.height }
+              : null);
 
       // Se o usuário saiu (Esc, botão direito) enquanto a foto era tirada, a
       // interface já não existe mais — entregar aqui só geraria erro em cascata.

@@ -58,10 +58,26 @@ const MIN_WINDOW = 32;
  * @property {string[]} warnings
  */
 
-/** Captura um elemento do DOM com a folga configurada. */
-export function captureElement(element, options) {
+/**
+ * Captura um elemento do DOM com a folga configurada.
+ *
+ * @param {{ width: number, height: number }|null} frozen tamanho travado no
+ *   instante do clique. Entre o hover e a foto o elemento pode mudar de
+ *   tamanho por um frame (`:active` do clique, fonte que carrega, layout que
+ *   assenta) e cada medição veria um número diferente — a etiqueta mostrava
+ *   um, o canvas nascia de outro e sobrava faixa vazia. Com o tamanho travado,
+ *   etiqueta, canvas e pintura concordam por construção. A posição continua
+ *   viva (a costura por rolagem precisa dela).
+ */
+export function captureElement(element, options, frozen = null) {
   const scroller = scrollableAncestor(element);
-  const measure = () => inflate(element.getBoundingClientRect(), options.padding);
+  const measure = () => {
+    const live = element.getBoundingClientRect();
+    const box = frozen
+      ? { left: live.left, top: live.top, width: frozen.width, height: frozen.height }
+      : live;
+    return inflate(box, options.padding);
+  };
   return stitch({ measure, scroller, options, keepInside: element });
 }
 
