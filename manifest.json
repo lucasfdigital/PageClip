@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PageClip",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Captura recortes exatos de elementos do DOM, regiões livres ou a página inteira, com navegação pela árvore e costura por rolagem.",
   "minimum_chrome_version": "116",
   "permissions": [
