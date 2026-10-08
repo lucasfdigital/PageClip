@@ -192,7 +192,13 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
         if (total > 1) await setPhase('working');
 
         try {
-          const scale = bitmap.width / Math.max(1, viewportWidth());
+          // A foto cobre a janela inteira, INCLUINDO a faixa da barra de
+          // rolagem quando ela é clássica (ocupa pixels). Dividir por
+          // clientWidth (que exclui a faixa) inflava a escala em ~1% e cada
+          // dimensão saía 1px maior a cada ~100px — o oposto do pixel-perfect.
+          // innerWidth mede a mesma janela que a foto, então a escala volta a
+          // ser exatamente a densidade real (zoom incluso).
+          const scale = bitmap.width / Math.max(1, window.innerWidth);
 
           if (!canvas) {
             outScale = options.scale === 'css' ? 1 : scale;

@@ -104,8 +104,8 @@ Todo o resto é trabalho da extensão:
 **Recorte.** Medimos o elemento com `getBoundingClientRect()`, tiramos a foto e cortamos usando a
 escala real da imagem (`largura da foto ÷ largura da viewport`). Essa divisão é o detalhe que faz o
 recorte bater pixel a pixel com zoom do navegador e telas HiDPI, e ela usa
-`documentElement.clientWidth`, não `window.innerWidth`, porque a foto não inclui a barra de
-rolagem e o `innerWidth` inclui.
+`window.innerWidth`, não `documentElement.clientWidth`: a foto cobre a janela inteira, incluindo a
+faixa da barra de rolagem clássica, e dividir pela largura sem a faixa inflava tudo em ~1%.
 
 **Costura.** Quando o alvo não cabe na tela, rolamos de pedaço em pedaço. Depois de **cada** rolagem
 o alvo é medido de novo e só a parte realmente visível é desenhada na imagem final. Como nada é
