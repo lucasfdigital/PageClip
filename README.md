@@ -10,6 +10,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Issues](https://img.shields.io/github/issues/lucasfdigital/PageClip)](https://github.com/lucasfdigital/PageClip/issues)
 [![Pull requests](https://img.shields.io/github/issues-pr/lucasfdigital/PageClip)](https://github.com/lucasfdigital/PageClip/pulls)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Instalar-2563eb?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/dflihojebkolifkikknjdgipgmgihplm)
 
 Extensão MV3 (Chrome/Edge) para tirar prints **recortados exatamente num elemento do DOM**.
 Você passa o mouse, a extensão destaca o elemento sob o cursor, você clica, e sai um PNG com
