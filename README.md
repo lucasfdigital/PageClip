@@ -128,6 +128,13 @@ você aciona o ícone, o atalho ou o menu de contexto (`activeTab`), e perde ess
 página navega. Nada sai da sua máquina: as capturas ficam em IndexedDB local e os ajustes em
 `storage.sync`.
 
+**Alta definição.** `captureVisibleTab` só entrega os pixels físicos da tela, então num monitor
+Full HD a imagem sai com 1 pixel por pixel CSS. Na resolução alta (2× ou 3×, a padrão) a extensão
+usa `debugger` só durante a foto: pede ao Chrome que redesenhe a aba com mais pixels
+(`Emulation.setDeviceMetricsOverride`), fotografa (`Page.captureScreenshot`) e solta em seguida.
+Nesse instante o Chrome mostra a faixa "começou a depurar este navegador". Em telas que já têm
+essa densidade (Retina no 2×) nada disso acontece, a foto normal já sai nítida.
+
 ## Mapa dos arquivos
 
 ```

@@ -200,6 +200,106 @@ function grabViewport(windowId) {
 }
 
 // ---------------------------------------------------------------------------
+// Alta definição (chrome.debugger)
+// ---------------------------------------------------------------------------
+
+/**
+ * Abas que estão sendo redesenhadas em densidade maior.
+ *
+ * `captureVisibleTab` só entrega os pixels físicos da tela: num monitor Full HD
+ * é 1 pixel por pixel CSS, e a imagem sai pequena. Pelo protocolo do DevTools
+ * dá para pedir ao Chrome que desenhe a página em 2× ou 3× sem mudar o layout e
+ * fotografar nessa densidade. Enquanto o debugger está preso, o Chrome mostra a
+ * faixa "começou a depurar este navegador", por isso ele só fica preso durante
+ * a foto.
+ */
+const hiresTabs = new Set();
+
+async function beginHires(tabId, { factor, width, height }) {
+  if (![2, 3].includes(factor) || !(width > 0) || !(height > 0)) throw new Error('Pedido de alta definição inválido.');
+  await endHires(tabId);
+
+  const target = { tabId };
+  try {
+    await chrome.debugger.attach(target, '1.3');
+  } catch (error) {
+    // Pode ser uma sessão nossa que sobrou de um service worker anterior.
+    try {
+      await chrome.debugger.detach(target);
+      await chrome.debugger.attach(target, '1.3');
+    } catch {
+      if (/already attached|another debugger/i.test(error?.message || '')) {
+        throw new Error('feche o DevTools desta aba');
+      }
+      throw error;
+    }
+  }
+  hiresTabs.add(tabId);
+
+  try {
+    // Largura e altura fixas: a faixa de depuração encolhe a área da aba, e sem
+    // isso a página mudaria de layout no meio da foto. O tamanho chega em pixels
+    // CSS e a emulação fala em pixels de tela: com zoom do navegador fora de
+    // 100% eles só batem multiplicando pelo zoom.
+    const zoom = await chrome.tabs.getZoom(tabId);
+    await chrome.debugger.sendCommand(target, 'Emulation.setDeviceMetricsOverride', {
+      width: Math.round(width * zoom),
+      height: Math.round(height * zoom),
+      deviceScaleFactor: factor,
+      mobile: false
+    });
+  } catch (error) {
+    await endHires(tabId);
+    throw error;
+  }
+}
+
+async function endHires(tabId) {
+  if (!hiresTabs.delete(tabId)) return;
+
+  const target = { tabId };
+  try {
+    await chrome.debugger.sendCommand(target, 'Emulation.clearDeviceMetricsOverride');
+  } catch {
+    // O debugger pode ter caído sozinho (aba fechada, faixa cancelada).
+  }
+  try {
+    await chrome.debugger.detach(target);
+  } catch {
+    // Idem.
+  }
+}
+
+async function grabHires(tabId) {
+  const { data } = await chrome.debugger.sendCommand({ tabId }, 'Page.captureScreenshot', { format: 'png' });
+  return `data:image/png;base64,${data}`;
+}
+
+// O usuário pode clicar em "Cancelar" na faixa amarela; a captura em curso
+// descobre isso na próxima foto. A emulação sobrevive ao debugger solto, então
+// prendemos de novo só para devolver a aba à densidade normal.
+chrome.debugger.onDetach.addListener(async (source, reason) => {
+  const { tabId } = source;
+  if (!tabId || !hiresTabs.delete(tabId) || reason === 'target_closed') return;
+
+  try {
+    await chrome.debugger.attach({ tabId }, '1.3');
+    await chrome.debugger.sendCommand({ tabId }, 'Emulation.clearDeviceMetricsOverride');
+    await chrome.debugger.detach({ tabId });
+  } catch {
+    // Sem como limpar (DevTools aberto, por exemplo): recarregar a aba resolve.
+  }
+});
+
+// Se a página navegar ou fechar no meio da captura, o HIRES_END nunca chega.
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+  if (changeInfo.status === 'loading') endHires(tabId);
+});
+chrome.tabs.onRemoved.addListener((tabId) => {
+  hiresTabs.delete(tabId);
+});
+
+// ---------------------------------------------------------------------------
 // Galeria
 // ---------------------------------------------------------------------------
 
@@ -315,8 +415,21 @@ chrome.runtime.onMessage.addListener(
       case ToBackground.GRAB_VIEWPORT: {
         const windowId = sender.tab?.windowId;
         if (typeof windowId !== 'number') throw new Error('Captura pedida fora de uma aba.');
+        if (payload?.hires) {
+          if (!hiresTabs.has(sender.tab.id)) throw new Error('A alta definição foi desligada no meio da captura.');
+          return { dataUrl: await grabHires(sender.tab.id) };
+        }
         return { dataUrl: await grabViewport(windowId) };
       }
+
+      case ToBackground.HIRES_BEGIN:
+        if (typeof sender.tab?.id !== 'number') throw new Error('Alta definição pedida fora de uma aba.');
+        await beginHires(sender.tab.id, payload ?? {});
+        return { ok: true };
+
+      case ToBackground.HIRES_END:
+        if (typeof sender.tab?.id === 'number') await endHires(sender.tab.id);
+        return { ok: true };
 
       case ToBackground.SAVE_CAPTURE:
         return saveCapture(payload);

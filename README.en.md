@@ -127,6 +127,13 @@ moment you trigger the icon, the shortcut or the context menu (`activeTab`), and
 when the page navigates. Nothing leaves your machine: captures stay in local IndexedDB and settings
 in `storage.sync`.
 
+**High definition.** `captureVisibleTab` only returns the screen's physical pixels, so on a Full HD
+monitor the image comes out at 1 pixel per CSS pixel. At high resolution (2× or 3×, the default)
+the extension uses `debugger` only during the shot: it asks Chrome to redraw the tab with more
+pixels (`Emulation.setDeviceMetricsOverride`), shoots it (`Page.captureScreenshot`) and releases it
+right after. Meanwhile Chrome shows the "started debugging this browser" bar. On screens that
+already have that density (Retina at 2×) none of this happens, the regular shot is already sharp.
+
 ## File map
 
 ```

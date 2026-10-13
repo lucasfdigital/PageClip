@@ -159,6 +159,8 @@ export default function SettingsForm() {
             onSelectionChange={(key) => update({ scale: String(key) })}
             className="w-[300px]"
           >
+            <SelectItem id="x2">Alta definição 2× (mais nítida)</SelectItem>
+            <SelectItem id="x3">Alta definição 3×</SelectItem>
             <SelectItem id="device">Da tela (nítida em telas HiDPI)</SelectItem>
             <SelectItem id="css">1 pixel CSS = 1 pixel</SelectItem>
           </Select>

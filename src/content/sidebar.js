@@ -48,6 +48,8 @@ const TEMPLATE = `
       <label class="field">
         <span>Resolução</span>
         <select name="scale">
+          <option value="x2">Alta 2×</option>
+          <option value="x3">Alta 3×</option>
           <option value="device">Da tela</option>
           <option value="css">1× CSS</option>
         </select>

@@ -10,6 +10,13 @@
 export const ToBackground = Object.freeze({
   /** Devolve um PNG dataURL da viewport visível da aba que pediu. */
   GRAB_VIEWPORT: 'bg:grab-viewport',
+  /**
+   * Passa a redesenhar a aba em densidade maior até HIRES_END; nesse meio tempo
+   * GRAB_VIEWPORT devolve fotos nessa densidade. payload: { factor, width, height }
+   */
+  HIRES_BEGIN: 'bg:hires-begin',
+  /** Volta a aba à densidade normal. */
+  HIRES_END: 'bg:hires-end',
   /** Persiste uma captura na galeria (IndexedDB da extensão). */
   SAVE_CAPTURE: 'bg:save-capture',
   /** Lista as capturas recentes (miniaturas) para o painel lateral. payload: { limit } */

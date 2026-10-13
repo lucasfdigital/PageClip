@@ -60,6 +60,12 @@ export default function HelpPanel() {
           Quando o alvo é maior que a tela, ele rola a página em partes e costura as fotos.
           Cada pedaço é medido de novo depois de rolar, então nada sai desalinhado.
         </p>
+        <p>
+          Na resolução alta (2× ou 3×), o Chrome redesenha a página com mais pixels só durante a
+          foto, então o texto sai nítido mesmo em monitor Full HD. Nesse instante aparece a faixa
+          &quot;PageClip começou a depurar este navegador&quot;, que some sozinha no fim. Em telas
+          que já têm essa densidade (Retina no 2×), a faixa nem aparece.
+        </p>
       </Card>
 
       <Card title="O que ainda não dá">

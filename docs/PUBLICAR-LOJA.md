@@ -36,6 +36,7 @@ pronto e enviado para revisão. Não mexa no código, só no console da loja.
   - storage: `Salvar as preferências do usuário (formato, qualidade, folga, atalhos) localmente.`
   - contextMenus: `Adicionar Capturar elemento e Abrir galeria do PageClip ao menu de botão direito.`
   - clipboardWrite: `Copiar a captura para a área de transferência quando o usuário escolhe essa opção.`
+  - debugger: `Na resolução alta (2× ou 3×), pedir ao Chrome que desenhe a aba com mais pixels (Emulation.setDeviceMetricsOverride) e fotografá-la (Page.captureScreenshot), só durante a captura acionada pelo usuário. O debugger é solto logo em seguida. Nenhum conteúdo da página é lido, alterado ou enviado.`
 - Código remoto: marque **Não, não estou usando código remoto** (todo o código está no pacote, verificado)
 - Uso de dados: não marque nenhum tipo de dado. Marque as três declarações de conformidade
 - Política de privacidade: `https://github.com/lucasfdigital/PageClip/blob/main/PRIVACY.md`

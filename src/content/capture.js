@@ -14,7 +14,7 @@
  */
 
 import { askBackground, ToBackground } from '../shared/protocol.js';
-import { MIME, hasAlpha } from '../shared/settings.js';
+import { MIME, hasAlpha, hiresFactor } from '../shared/settings.js';
 import { scrollableAncestor } from './picker.js';
 
 /** Limite físico de canvas do Chrome, com folga. */
@@ -35,6 +35,11 @@ const MAX_AREA = 100_000_000;
 const MAX_TILES = 80;
 /** Abaixo disso não sobra janela útil para costurar. */
 const MIN_WINDOW = 32;
+/**
+ * Espera depois de ligar a alta definição: a página é redesenhada na densidade
+ * nova e imagens com `srcset` trocam para a versão maior.
+ */
+const HIRES_SETTLE = 250;
 
 /**
  * @typedef {object} CaptureOptions
@@ -43,7 +48,7 @@ const MIN_WINDOW = 32;
  * @property {'png'|'jpeg'|'webp'} format
  * @property {number} quality
  * @property {string} matte cor sob formatos sem alfa
- * @property {'device'|'css'} scale
+ * @property {'device'|'css'|'x2'|'x3'} scale
  * @property {boolean} hideFixed
  * @property {number} tileDelay
  * @property {(phase: 'idle'|'working'|'shooting') => Promise<void>} [setPhase]
@@ -119,10 +124,14 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
   const signal = options.signal;
   const restoreScroll = snapshotScroll(scroller);
   let pageStyles = null;
+  let hires = false;
 
   await setPhase('shooting');
 
   try {
+    // Antes de medir: ligar a alta definição pode mexer no tamanho da aba.
+    hires = await beginHires(options.scale, warnings);
+
     // Traz o container com rolagem própria para a tela antes de medir a janela útil.
     if (scroller) scroller.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
 
@@ -186,7 +195,7 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
         // dezenas de milissegundos, e medir depois abriria margem para o alvo
         // ter se mexido entre a imagem e a régua.
         const target = measure();
-        const bitmap = await grabViewportBitmap();
+        const bitmap = await grabViewportBitmap(hires);
 
         // Devolve o botão parar à tela enquanto processamos e rolamos.
         if (total > 1) await setPhase('working');
@@ -278,9 +287,37 @@ async function stitch({ measure, scroller, options, keepInside = null }) {
     return { blob, width: canvas.width, height: canvas.height, warnings, stopped, debug };
   } finally {
     pageStyles?.dispose();
+    if (hires) await askBackground(ToBackground.HIRES_END).catch(() => {});
     restoreScroll();
     await setPhase('idle');
   }
+}
+
+/**
+ * Liga a alta definição quando a configuração pede mais densidade que a tela tem.
+ * Se não der (DevTools aberto, por exemplo), a captura segue na resolução da
+ * tela com um aviso, em vez de falhar.
+ * @returns {Promise<boolean>} se a alta definição ficou ligada
+ */
+async function beginHires(scale, warnings) {
+  const factor = hiresFactor(scale);
+  // Tela que já tem essa densidade (Retina no 2×) não precisa de nada: a foto
+  // normal já sai nítida, e a faixa de depuração do Chrome nem aparece.
+  if (!factor || window.devicePixelRatio >= factor) return false;
+
+  try {
+    await askBackground(ToBackground.HIRES_BEGIN, {
+      factor,
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+  } catch (error) {
+    warnings.push(`Alta definição indisponível (${error.message}), capturei na resolução da tela.`);
+    return false;
+  }
+
+  await settle(HIRES_SETTLE);
+  return true;
 }
 
 /** Corta o canvas no canto superior esquerdo, mantendo só a parte preenchida. */
@@ -365,7 +402,7 @@ function nudge(start, end, min, max) {
   return 0;
 }
 
-async function grabViewportBitmap() {
+async function grabViewportBitmap(hires) {
   // `captureVisibleTab` fotografa a aba visível da janela — não necessariamente
   // esta. Se o usuário trocou de aba no meio de uma costura, a foto seguinte
   // seria de outra página e entraria colada no resultado.
@@ -373,7 +410,7 @@ async function grabViewportBitmap() {
     throw new Error('A aba precisa estar em primeiro plano durante a captura.');
   }
 
-  const { dataUrl } = await askBackground(ToBackground.GRAB_VIEWPORT);
+  const { dataUrl } = await askBackground(ToBackground.GRAB_VIEWPORT, { hires });
   // `fetch` de data: URL roda com privilégio da extensão e não esbarra na CSP da página.
   const blob = await (await fetch(dataUrl)).blob();
   return createImageBitmap(blob);
