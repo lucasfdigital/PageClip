@@ -1,0 +1,20 @@
+/*
+ * CSS do site de divulgação: o mesmo BoardUI do hub (fontes, tokens,
+ * tipografia), sem nada próprio além do que o layout precisa.
+ */
+
+@import "../src/styles/fonts.css";
+@import "../src/styles/globals.css";
+
+@source "./";
+@source "../src/components";
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

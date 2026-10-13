@@ -41,7 +41,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["src/content/*.js", "src/shared/*.js"],
+      "resources": ["src/content/*.js", "src/shared/*.js", "src/overlay-boardui/*"],
       "matches": ["<all_urls>"]
     }
   ],

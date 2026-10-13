@@ -21,7 +21,7 @@ jobs:
         run: node -e "JSON.parse(require('fs').readFileSync('manifest.json','utf8'))"
       - name: Sintaxe dos scripts da extensão
         run: |
-          find src -name '*.js' -not -path 'src/hub-boardui/*' -print0 \
+          find src -name '*.js' -not -path 'src/hub-boardui/*' -not -path 'src/overlay-boardui/*' -print0 \
             | xargs -0 -n1 node --check
 
   hub:
@@ -40,11 +40,11 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
-      - name: src/hub-boardui está atualizado
+      - name: Arquivos gerados estão atualizados (hub, barra e site)
         working-directory: .
         run: |
-          if [ -n "$(git status --porcelain src/hub-boardui)" ]; then
-            echo "::error::O src/hub-boardui está desatualizado. Rode 'npm run build' dentro de hub-react/ e commite o resultado."
-            git status --short src/hub-boardui
+          if [ -n "$(git status --porcelain src/hub-boardui src/overlay-boardui site)" ]; then
+            echo "::error::Arquivos gerados desatualizados. Rode 'npm run build' dentro de hub-react/ e commite o resultado."
+            git status --short src/hub-boardui src/overlay-boardui site
             exit 1
           fi

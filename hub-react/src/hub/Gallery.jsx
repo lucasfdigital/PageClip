@@ -76,9 +76,7 @@ function CaptureCard({ item, thumbUrl, onRemove }) {
           />
         ) : null}
         {isTall(meta) ? (
-          <span className="absolute right-2 bottom-2 rounded-full bg-black/60 px-2 py-0.5 text-caption-1-semibold text-white">
-            só o topo
-          </span>
+          <Badge className="absolute right-2 bottom-2">só o topo</Badge>
         ) : null}
       </figure>
 

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { DirectionProvider } from '@/components/foundations/direction/direction'
+import '@/styles/fonts.css'
 import '@/styles/globals.css'
 import App from './App.jsx'
 
