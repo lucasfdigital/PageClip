@@ -43,6 +43,14 @@ Valeu por querer ajudar! O fluxo é o padrão de open source: fork, branch, PR p
 3. Teste o modo de seleção (`Alt+Shift+S`), a página inteira (`Alt+Shift+F`) e o hub
    (menu de contexto, **Abrir galeria do PageClip**).
 
+## Lançar uma versão
+
+1. Suba a `version` no `manifest.json` e junte na `main`.
+2. Crie e envie a tag com o texto da release:
+   `git tag -a v1.2.3 -m "O que mudou" && git push origin v1.2.3`
+3. O workflow **Release** monta o `PageClip-v1.2.3.zip` e publica a release com ele.
+   Para a Chrome Web Store, siga `docs/PUBLICAR-LOJA.md`.
+
 ## Código de conduta
 
 Ao participar, você concorda em seguir o [Código de Conduta](CODE_OF_CONDUCT.md).
@@ -97,6 +105,14 @@ Thanks for wanting to help! The flow is the standard open source one: fork, bran
 2. Click **Load unpacked** and pick the project folder.
 3. Test selection mode (`Alt+Shift+S`), full page (`Alt+Shift+F`) and the hub
    (context menu, **Open PageClip gallery**).
+
+## Releasing a version
+
+1. Bump `version` in `manifest.json` and merge it into `main`.
+2. Create and push the tag with the release notes:
+   `git tag -a v1.2.3 -m "What changed" && git push origin v1.2.3`
+3. The **Release** workflow builds `PageClip-v1.2.3.zip` and publishes the release with it.
+   For the Chrome Web Store, follow `docs/PUBLICAR-LOJA.md`.
 
 ## Code of conduct
 
