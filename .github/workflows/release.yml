@@ -1,12 +1,21 @@
 name: Release
 
-# Ao enviar uma tag de versão (ex.: v1.1.0), monta o .zip da extensão e publica
-# a release no GitHub com ele anexado. O texto da release vem da mensagem da
-# tag anotada (git tag -a v1.1.0 -m "...").
+# Publica a release no GitHub com o .zip da extensão anexado. Dois jeitos:
+# - enviar uma tag de versão (git push origin v1.1.0): o texto vem da mensagem
+#   da tag anotada (git tag -a v1.1.0 -m "...");
+# - botão "Run workflow" em Actions, na main: cria a tag v<versão do
+#   manifest.json> no commit atual e usa o texto digitado.
+# Se a release já existir (criada à mão pelo site), só anexa o .zip.
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      notes:
+        description: Texto da release
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -18,24 +27,40 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Versão da tag bate com o manifest.json
+      - name: Versão e texto
+        env:
+          NOTES: ${{ inputs.notes }}
         run: |
-          manifest="v$(node -p "require('./manifest.json').version")"
-          if [ "$manifest" != "$GITHUB_REF_NAME" ]; then
-            echo "::error::A tag é $GITHUB_REF_NAME, mas o manifest.json diz $manifest."
-            exit 1
+          version="v$(node -p "require('./manifest.json').version")"
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            if [ "$version" != "$GITHUB_REF_NAME" ]; then
+              echo "::error::A tag é $GITHUB_REF_NAME, mas o manifest.json diz $version."
+              exit 1
+            fi
+            git fetch --force origin "refs/tags/$GITHUB_REF_NAME:refs/tags/$GITHUB_REF_NAME"
+            git tag -l --format='%(contents)' "$GITHUB_REF_NAME" > notes.md
+          else
+            if [ "$GITHUB_REF_NAME" != "main" ]; then
+              echo "::error::Rode pela main: a release sai do commit escolhido, e ele precisa estar na main."
+              exit 1
+            fi
+            printf '%s\n' "$NOTES" > notes.md
           fi
+          echo "TAG=$version" >> "$GITHUB_ENV"
 
       - name: Montar o pacote
         # Só o que a extensão usa: o mesmo conteúdo que vai para a Chrome Web Store.
-        run: git archive --format=zip -o "PageClip-$GITHUB_REF_NAME.zip" HEAD manifest.json icons src LICENSE
+        run: git archive --format=zip -o "PageClip-$TAG.zip" HEAD manifest.json icons src LICENSE
 
       - name: Publicar
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          git fetch --force origin "refs/tags/$GITHUB_REF_NAME:refs/tags/$GITHUB_REF_NAME"
-          git tag -l --format='%(contents)' "$GITHUB_REF_NAME" > notes.md
-          gh release create "$GITHUB_REF_NAME" "PageClip-$GITHUB_REF_NAME.zip" \
-            --title "$GITHUB_REF_NAME" \
-            --notes-file notes.md
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" "PageClip-$TAG.zip" --clobber
+          else
+            gh release create "$TAG" "PageClip-$TAG.zip" \
+              --title "$TAG" \
+              --notes-file notes.md \
+              --target "$GITHUB_SHA"
+          fi
