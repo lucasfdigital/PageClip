@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PageClip",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Captura recortes exatos de elementos do DOM, regiões livres ou a página inteira, com navegação pela árvore e costura por rolagem.",
   "minimum_chrome_version": "116",
   "permissions": [
@@ -9,7 +9,8 @@
     "scripting",
     "storage",
     "contextMenus",
-    "clipboardWrite"
+    "clipboardWrite",
+    "debugger"
   ],
   "background": {
     "service_worker": "src/background/service-worker.js",
@@ -40,7 +41,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["src/content/*.js", "src/shared/*.js"],
+      "resources": ["src/content/*.js", "src/shared/*.js", "src/overlay-boardui/*"],
       "matches": ["<all_urls>"]
     }
   ],

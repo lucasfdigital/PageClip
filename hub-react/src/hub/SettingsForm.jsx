@@ -43,9 +43,6 @@ function Row({ label, children, hint }) {
   )
 }
 
-const numberInputClass =
-  'w-[90px] rounded-lg border border-border-button-default bg-background-full px-2.5 py-[7px] text-body-regular outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring'
-
 const colorInputClass =
   'h-[30px] w-12 cursor-pointer rounded-lg border border-border-button-default bg-background-full p-0.5'
 
@@ -159,6 +156,8 @@ export default function SettingsForm() {
             onSelectionChange={(key) => update({ scale: String(key) })}
             className="w-[300px]"
           >
+            <SelectItem id="x2">Alta definição 2× (mais nítida)</SelectItem>
+            <SelectItem id="x3">Alta definição 3×</SelectItem>
             <SelectItem id="device">Da tela (nítida em telas HiDPI)</SelectItem>
             <SelectItem id="css">1 pixel CSS = 1 pixel</SelectItem>
           </Select>
@@ -166,15 +165,13 @@ export default function SettingsForm() {
 
         <Row label="Folga ao redor do elemento">
           <span className="flex items-center gap-2">
-            <input
+            <Input
               type="number"
+              inputMode="numeric"
               aria-label="Folga ao redor do elemento"
-              min="0"
-              max="200"
-              step="1"
-              value={draft.padding}
-              onChange={(event) => update({ padding: event.target.value })}
-              className={numberInputClass}
+              value={String(draft.padding ?? '')}
+              onChange={(value) => update({ padding: value })}
+              className="w-[90px]"
             />
             <em className="text-body-2-regular text-text-secondary not-italic">px</em>
           </span>
@@ -182,15 +179,13 @@ export default function SettingsForm() {
 
         <Row label="Cantos arredondados">
           <span className="flex items-center gap-2">
-            <input
+            <Input
               type="number"
+              inputMode="numeric"
               aria-label="Cantos arredondados"
-              min="0"
-              max="200"
-              step="1"
-              value={draft.radius}
-              onChange={(event) => update({ radius: event.target.value })}
-              className={numberInputClass}
+              value={String(draft.radius ?? '')}
+              onChange={(value) => update({ radius: value })}
+              className="w-[90px]"
             />
             <em className="text-body-2-regular text-text-secondary not-italic">px</em>
           </span>
@@ -238,19 +233,17 @@ export default function SettingsForm() {
           <code className="rounded bg-background-secondary-default px-1 font-mono text-body-2-regular">{'{time}'}</code>{' '}
           <code className="rounded bg-background-secondary-default px-1 font-mono text-body-2-regular">{'{w}'}</code>{' '}
           <code className="rounded bg-background-secondary-default px-1 font-mono text-body-2-regular">{'{h}'}</code>{' '}
-         , resultado: <b className="font-mono font-medium text-text-primary">{preview}</b>
+         , resultado: <b className="font-mono text-body-2-medium text-text-primary">{preview}</b>
         </p>
 
         <Row label="Capturas guardadas na galeria">
-          <input
+          <Input
             type="number"
+            inputMode="numeric"
             aria-label="Capturas guardadas na galeria"
-            min="0"
-            max="200"
-            step="1"
-            value={draft.historyLimit}
-            onChange={(event) => update({ historyLimit: event.target.value })}
-            className={numberInputClass}
+            value={String(draft.historyLimit ?? '')}
+            onChange={(value) => update({ historyLimit: value })}
+            className="w-[90px]"
           />
         </Row>
       </Fieldset>
@@ -266,15 +259,13 @@ export default function SettingsForm() {
           hint="Aumente se a página carrega imagens conforme você rola e elas aparecem borradas ou vazias na costura."
         >
           <span className="flex items-center gap-2">
-            <input
+            <Input
               type="number"
+              inputMode="numeric"
               aria-label="Espera entre as fotos"
-              min="0"
-              max="2000"
-              step="10"
-              value={draft.tileDelay}
-              onChange={(event) => update({ tileDelay: event.target.value })}
-              className={numberInputClass}
+              value={String(draft.tileDelay ?? '')}
+              onChange={(value) => update({ tileDelay: value })}
+              className="w-[90px]"
             />
             <em className="text-body-2-regular text-text-secondary not-italic">ms</em>
           </span>

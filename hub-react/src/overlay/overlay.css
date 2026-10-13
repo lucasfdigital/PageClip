@@ -1,0 +1,76 @@
+/*
+ * CSS da barra do PageClip (a interface que aparece dentro dos sites).
+ *
+ * É o mesmo BoardUI do hub (tokens, tipografia, utilitários), adaptado no
+ * build por scripts/shadow-css.js para morar num shadow root fechado:
+ * `:root` vira `:host`, `@property` vira declaração comum e `rem` vira `px`.
+ */
+
+@import "../styles/globals.css";
+
+@source "./";
+@source "../components";
+
+:host {
+  /* Defesa contra folhas agressivas do site (`* { ... }`). Não zera custom
+     properties, então os tokens sobrevivem. */
+  all: initial;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+  display: block !important;
+  pointer-events: none !important;
+  color-scheme: light;
+  /* A Inter entra por FontFace no documento com um nome só nosso:
+     @font-face dentro de shadow root é ignorado pelo Chrome. */
+  --font-inter: "PageClip Inter";
+  --font-mono-source: ui-monospace;
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Fases da captura.
+ *
+ * 'working' esconde a interface mas mantém a pílula de progresso, que carrega
+ * o botão Parar. 'shooting' esconde tudo: é o quadro que vira imagem.
+ * Funciona porque visibility é herdada: o host esconde e o descendente pede
+ * visibilidade de volta. Sem animação aqui, de propósito.
+ */
+:host([phase="working"]),
+:host([phase="shooting"]) {
+  visibility: hidden !important;
+}
+
+:host([phase="working"]) [data-progress] {
+  visibility: visible;
+}
+
+/* Destaque que segue o mouse: posição escrita direto no elemento. */
+[data-frame] {
+  display: none;
+  border-color: var(--pc-accent, var(--color-accent-600));
+  background-color: color-mix(in srgb, var(--pc-accent, var(--color-accent-600)) 8%, transparent);
+}
+[data-frame][data-on="1"] { display: block; }
+[data-frame][data-dim="1"] { box-shadow: 0 0 0 100vmax rgb(8 10 14 / 0.55); }
+[data-frame][data-locked="1"] { border-style: dashed; }
+
+[data-tag] { background-color: var(--pc-accent, var(--color-accent-600)); }
+[data-tag][hidden] { display: none; }
+[data-tag][data-place="above"] { bottom: calc(100% + 5px); }
+[data-tag][data-place="below"] { top: calc(100% + 5px); }
+[data-tag][data-place="inside"] { top: 4px; left: 4px; }
+
+/* Fundo quadriculado sob imagens com transparência. */
+.pc-checker {
+  background-color: var(--color-background-primary-default);
+  background-image:
+    linear-gradient(45deg, rgb(128 128 128 / 0.14) 25%, transparent 25%),
+    linear-gradient(-45deg, rgb(128 128 128 / 0.14) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgb(128 128 128 / 0.14) 75%),
+    linear-gradient(-45deg, transparent 75%, rgb(128 128 128 / 0.14) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+}

@@ -28,6 +28,9 @@ terceiros que enviam dados para fora.
 - `storage`: salvar suas preferências localmente.
 - `contextMenus`: itens Capturar elemento e Abrir galeria no botão direito.
 - `clipboardWrite`: copiar a captura quando você escolhe essa opção.
+- `debugger`: na resolução alta (2× ou 3×), pedir ao Chrome que desenhe a aba com mais
+  pixels e fotografá-la, só durante a captura. É solto logo depois. Não lê nem envia
+  nada da página.
 
 Nenhuma permissão é usada para coletar dados.
 
@@ -73,6 +76,9 @@ no server, no usage analytics, and no third-party libraries that send data out.
 - `storage`: save your preferences locally.
 - `contextMenus`: Capture element and Open gallery items on right click.
 - `clipboardWrite`: copy the capture when you choose that option.
+- `debugger`: at high resolution (2× or 3×), ask Chrome to draw the tab with more pixels
+  and shoot it, only during the capture. It is released right after. It does not read or
+  send anything from the page.
 
 No permission is used to collect data.
 

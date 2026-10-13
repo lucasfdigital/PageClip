@@ -13,7 +13,7 @@
 import { ToContent, ToBackground, Mode, createMessageListener, askBackground } from '../shared/protocol.js';
 import { getSettings, patchSettings, onSettingsChanged } from '../shared/settings.js';
 import { buildFilename, siteFromUrl } from '../shared/format.js';
-import { Overlay } from './overlay.js';
+import { Overlay } from '../overlay-boardui/overlay.js';
 import { captureElement, capturePage, captureRegion, estimateTiles, blobToDataUrl } from './capture.js';
 import { ancestors, cssPath, deepElementFromPoint, describe, isCapturable, parentTarget, childTarget, siblingTarget } from './picker.js';
 
@@ -290,6 +290,10 @@ class PageClip {
 
   #onKeyDown = (event) => {
     if (!this.#overlay) return;
+
+    // Digitando num campo da barra ou navegando numa lista do Select: as teclas
+    // são do controle, não dos atalhos (senão "2" na folga trocaria o modo).
+    if (this.#overlay.isEditing()) return;
 
     if (event.key === 'Escape') {
       event.preventDefault();

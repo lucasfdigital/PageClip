@@ -15,17 +15,17 @@ Valeu por querer ajudar! O fluxo é o padrão de open source: fork, branch, PR p
 - **Extensão (vanilla):** `manifest.json`, `src/background/`, `src/content/`, `src/shared/`.
   JavaScript de módulos ES puro, sem build. Depois de mexer, recarregue a extensão
   em `chrome://extensions`.
-- **Hub (React + BoardUI):** `hub-react/` (Vite + Tailwind v4). Depois de mexer, gere
-  os arquivos da extensão com:
+- **Telas (React + BoardUI + Motion):** `hub-react/` (Vite + Tailwind v4) gera o hub, a
+  barra que aparece dentro dos sites e o site de divulgação. Depois de mexer, gere com:
 
   ```
   cd hub-react
   npm install   # só na primeira vez
-  npm run build # grava em src/hub-boardui/
+  npm run build # grava src/hub-boardui/, src/overlay-boardui/ e ../site/
   ```
 
-  O `src/hub-boardui/` gerado entra no commit, ele é o que a extensão abre de verdade.
-  Nunca edite nada dentro dele à mão. A checagem automática (CI) falha se você esquecer de rodar o build.
+  Os arquivos gerados entram no commit: são o que a extensão e a Vercel usam de verdade.
+  Nunca edite nada dentro deles à mão. A checagem automática (CI) falha se você esquecer de rodar o build.
 
 ## Convenções
 
@@ -42,6 +42,14 @@ Valeu por querer ajudar! O fluxo é o padrão de open source: fork, branch, PR p
 2. Clique em **Carregar sem compactação** e escolha a pasta do projeto.
 3. Teste o modo de seleção (`Alt+Shift+S`), a página inteira (`Alt+Shift+F`) e o hub
    (menu de contexto, **Abrir galeria do PageClip**).
+
+## Lançar uma versão
+
+1. Suba a `version` no `manifest.json` e junte na `main`.
+2. Crie e envie a tag com o texto da release:
+   `git tag -a v1.2.3 -m "O que mudou" && git push origin v1.2.3`
+3. O workflow **Release** monta o `PageClip-v1.2.3.zip` e publica a release com ele.
+   Para a Chrome Web Store, siga `docs/PUBLICAR-LOJA.md`.
 
 ## Código de conduta
 
@@ -70,17 +78,17 @@ Thanks for wanting to help! The flow is the standard open source one: fork, bran
 - **Extension (vanilla):** `manifest.json`, `src/background/`, `src/content/`, `src/shared/`.
   Plain ES module JavaScript, no build. After changing it, reload the extension
   in `chrome://extensions`.
-- **Hub (React + BoardUI):** `hub-react/` (Vite + Tailwind v4). After changing it, generate
-  the extension files with:
+- **Screens (React + BoardUI + Motion):** `hub-react/` (Vite + Tailwind v4) builds the hub,
+  the bar that shows up inside websites and the landing site. After changing them, run:
 
   ```
   cd hub-react
   npm install   # first time only
-  npm run build # writes to src/hub-boardui/
+  npm run build # writes src/hub-boardui/, src/overlay-boardui/ and ../site/
   ```
 
-  The generated `src/hub-boardui/` goes into the commit, it's what the extension actually opens.
-  Never edit anything inside it by hand. The automatic check (CI) fails if you forget to rebuild.
+  The generated files go into the commit: they're what the extension and Vercel actually use.
+  Never edit anything inside them by hand. The automatic check (CI) fails if you forget to rebuild.
 
 ## Conventions
 
@@ -97,6 +105,14 @@ Thanks for wanting to help! The flow is the standard open source one: fork, bran
 2. Click **Load unpacked** and pick the project folder.
 3. Test selection mode (`Alt+Shift+S`), full page (`Alt+Shift+F`) and the hub
    (context menu, **Open PageClip gallery**).
+
+## Releasing a version
+
+1. Bump `version` in `manifest.json` and merge it into `main`.
+2. Create and push the tag with the release notes:
+   `git tag -a v1.2.3 -m "What changed" && git push origin v1.2.3`
+3. The **Release** workflow builds `PageClip-v1.2.3.zip` and publishes the release with it.
+   For the Chrome Web Store, follow `docs/PUBLICAR-LOJA.md`.
 
 ## Code of conduct
 

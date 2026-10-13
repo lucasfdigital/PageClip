@@ -29,21 +29,20 @@ que a tela**: nesse caso a extensão rola a página em partes e costura as fotos
 2. Ligue o **Modo do desenvolvedor**.
 3. Clique em **Carregar sem compactação** e escolha esta pasta (ou a pasta do `.zip`).
 
-O content script e o service worker não precisam de build, bundler nem `npm install`,
+O controlador da página, a seleção, a captura e o service worker não precisam de build,
 é JavaScript de módulos ES puro. Requer Chrome/Edge 116 ou mais novo.
 
-A página do hub (galeria/ajustes/ajuda) é a exceção: ela é React + BoardUI e vive em
-`hub-react/` (Vite + Tailwind v4). Depois de mexer nela, gere os arquivos usados pela
-extensão com:
+As três telas são React + BoardUI (com Motion nas animações) e vivem em `hub-react/`
+(Vite + Tailwind v4): o hub (galeria/ajustes/ajuda), a barra que aparece dentro dos sites e o
+site de divulgação. Depois de mexer nelas, gere os arquivos prontos com:
 
 ```
 cd hub-react
 npm install   # só na primeira vez
-npm run build # grava em src/hub-boardui/
+npm run build # grava src/hub-boardui/, src/overlay-boardui/ e ../site/
 ```
 
-Depois recarregue a extensão em `chrome://extensions`. Os arquivos antigos em `src/hub/`
-ficam guardados como referência, mas quem abre é o `src/hub-boardui/index.html` gerado.
+Depois recarregue a extensão em `chrome://extensions`.
 
 ## Usar
 
@@ -128,6 +127,13 @@ você aciona o ícone, o atalho ou o menu de contexto (`activeTab`), e perde ess
 página navega. Nada sai da sua máquina: as capturas ficam em IndexedDB local e os ajustes em
 `storage.sync`.
 
+**Alta definição.** `captureVisibleTab` só entrega os pixels físicos da tela, então num monitor
+Full HD a imagem sai com 1 pixel por pixel CSS. Na resolução alta (2× ou 3×, a padrão) a extensão
+usa `debugger` só durante a foto: pede ao Chrome que redesenhe a aba com mais pixels
+(`Emulation.setDeviceMetricsOverride`), fotografa (`Page.captureScreenshot`) e solta em seguida.
+Nesse instante o Chrome mostra a faixa "começou a depurar este navegador". Em telas que já têm
+essa densidade (Retina no 2×) nada disso acontece, a foto normal já sai nítida.
+
 ## Mapa dos arquivos
 
 ```
@@ -137,8 +143,6 @@ src/
   content/
     boot.js                      script clássico que carrega o módulo ES principal
     main.js                      controlador: eventos, teclado, orquestração
-    overlay.js                   interface no shadow root
-    styles.js                    CSS do overlay
     picker.js                    hit-test (com shadow DOM) e navegação na árvore
     capture.js                   foto, recorte, costura, limites de canvas
   shared/
@@ -146,9 +150,10 @@ src/
     settings.js                  preferências + normalização
     db.js                        galeria em IndexedDB
     format.js                    nomes de arquivo, datas, tamanhos
-  hub/                           hub antigo em JS puro (referência; não abre mais)
-  hub-boardui/                   hub atual, gerado pelo build do hub-react (não editar à mão)
-  hub-react/                     fonte do hub: React 19 + Tailwind v4 + BoardUI
+  hub-boardui/                   hub, gerado pelo build do hub-react (não editar à mão)
+  overlay-boardui/overlay.js     barra dentro dos sites, gerada pelo build (não editar à mão)
+hub-react/                       fonte das telas: React 19 + Tailwind v4 + BoardUI + Motion
+site/                            site de divulgação, gerado pelo build (a Vercel publica)
 icons/
 ```
 
@@ -158,8 +163,11 @@ hub-react/
   src/hub/Gallery.jsx            galeria (BoardUI: Button, Input, Badge, Kbd)
   src/hub/SettingsForm.jsx       ajustes (BoardUI: Select, Slider, Switch, Input)
   src/hub/HelpPanel.jsx          ajuda (BoardUI: Kbd)
+  src/overlay/                   barra dentro dos sites (shadow root fechado)
   src/components/                componentes BoardUI (`npx boardui add <nome>`)
-  src/styles/                    tema, tipografia e estilos globais do BoardUI
+  src/styles/                    tema, tipografia, fontes e estilos globais do BoardUI
+  site/                          fonte do site de divulgação (HTML pré-montado no build)
+  scripts/shadow-css.js          adapta o CSS do BoardUI ao shadow root (:host, @property, px)
 ```
 
 O estado "esta aba está em modo de seleção?" **não** é guardado no service worker, ele pode ser
@@ -202,8 +210,8 @@ encerrado a qualquer momento e a resposta ficaria mentindo. Em vez disso o servi
 ## Empacotar
 
 Para a Chrome Web Store / Edge Add-ons, basta zipar o conteúdo desta pasta (o `manifest.json`
-precisa ficar na raiz do zip), **excluindo** `hub-react/` (`src`, `node_modules`, configs do
-Vite): a extensão só usa o `src/hub-boardui/` já gerado. Para um `.crx` local, use
+precisa ficar na raiz do zip), **excluindo** `hub-react/`, `site/`, `.claude/`, `.github/` e
+`.mcp.json`: a extensão só usa o `src/hub-boardui/` e o `src/overlay-boardui/` já gerados. Para um `.crx` local, use
 *Empacotar extensão* em `chrome://extensions` e guarde o `.pem` gerado, é ele que mantém
 o mesmo ID entre versões.
 

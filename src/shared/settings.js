@@ -19,8 +19,11 @@ export const DEFAULTS = Object.freeze({
   radius: 10,
   /** Cor de fundo aplicada quando o formato não tem alfa. */
   matte: '#ffffff',
-  /** device = resolução física da tela; css = 1 pixel CSS por pixel. */
-  scale: 'device',
+  /**
+   * device = resolução física da tela; css = 1 pixel CSS por pixel;
+   * x2/x3 = a página é redesenhada em 2× ou 3× só durante a foto.
+   */
+  scale: 'x2',
   /** Copia para a área de transferência assim que captura. */
   copyOnCapture: true,
   /** Baixa o arquivo assim que captura. */
@@ -43,7 +46,7 @@ export const DEFAULTS = Object.freeze({
 
 const FORMATS = ['png', 'jpeg', 'webp'];
 const MODES = ['element', 'region', 'page'];
-const SCALES = ['device', 'css'];
+const SCALES = ['device', 'css', 'x2', 'x3'];
 
 /** MIME correspondente a cada formato suportado. */
 export const MIME = Object.freeze({ png: 'image/png', jpeg: 'image/jpeg', webp: 'image/webp' });
@@ -54,6 +57,13 @@ export const EXTENSION = Object.freeze({ png: 'png', jpeg: 'jpg', webp: 'webp' }
 /** Formatos com canal alfa; os demais recebem o `matte` por baixo. */
 export function hasAlpha(format) {
   return format !== 'jpeg';
+}
+
+/** Densidade pedida pela resolução "alta" (2 ou 3), ou null para as demais. */
+export function hiresFactor(scale) {
+  if (scale === 'x2') return 2;
+  if (scale === 'x3') return 3;
+  return null;
 }
 
 /** Devolve as preferências completas, com defaults preenchidos. */

@@ -4,6 +4,36 @@ import { useEffect, useRef } from "react";
 import type { RefObject } from "react";
 
 /**
+ * Listens for pointerdown both on the document and, when the anchor lives in
+ * a shadow root, on that shadow root. Events from inside a shadow tree reach
+ * the document retargeted to the host (a closed root hides even
+ * `composedPath()`), so only the shadow root's own listener sees the real
+ * target. Document events that come from inside the shadow tree are skipped
+ * there to avoid handling them twice.
+ */
+function onPointerDownAround(
+  anchor: HTMLElement | null | undefined,
+  handler: (target: Node) => void,
+) {
+  const root = anchor?.getRootNode();
+  const shadow = root instanceof ShadowRoot ? root : null;
+
+  const fromDocument = (event: Event) => {
+    const target = event.target as Node;
+    if (shadow && (target === shadow.host || shadow.host.contains(target))) return;
+    handler(target);
+  };
+  const fromShadow = (event: Event) => handler(event.target as Node);
+
+  document.addEventListener("pointerdown", fromDocument, true);
+  shadow?.addEventListener("pointerdown", fromShadow, true);
+  return () => {
+    document.removeEventListener("pointerdown", fromDocument, true);
+    shadow?.removeEventListener("pointerdown", fromShadow, true);
+  };
+}
+
+/**
  * React Aria's `Popover` couples "non-modal" with "not dismissable on
  * outside interaction" — `isNonModal` (which we set to avoid the scroll
  * lock / focus trap that comes with a modal popover) also silently disables
@@ -19,14 +49,10 @@ export function useDismissOnOutsidePress(
   useEffect(() => {
     if (!isOpen) return;
 
-    const handlePointerDown = (event: PointerEvent) => {
-      const target = event.target as Node;
+    return onPointerDownAround(refs[0]?.current, (target) => {
       if (refs.some((ref) => ref.current?.contains(target))) return;
       onDismiss();
-    };
-
-    document.addEventListener("pointerdown", handlePointerDown, true);
-    return () => document.removeEventListener("pointerdown", handlePointerDown, true);
+    });
   }, [isOpen, onDismiss, refs]);
 }
 
@@ -52,18 +78,15 @@ export function useTriggerToggle(
   useEffect(() => {
     if (!isOpen) return;
 
-    const handlePointerDown = (event: PointerEvent) => {
-      if (!triggerRef.current?.contains(event.target as Node)) return;
+    return onPointerDownAround(triggerRef.current, (target) => {
+      if (!triggerRef.current?.contains(target)) return;
       suppressReopenRef.current = true;
       // Safety valve: only the very next open within this click may be
       // swallowed; never leave a stale suppression behind.
       setTimeout(() => {
         suppressReopenRef.current = false;
       }, 400);
-    };
-
-    document.addEventListener("pointerdown", handlePointerDown, true);
-    return () => document.removeEventListener("pointerdown", handlePointerDown, true);
+    });
   }, [isOpen, triggerRef]);
 
   return (next: boolean) => {

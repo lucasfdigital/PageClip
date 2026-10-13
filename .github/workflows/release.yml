@@ -1,0 +1,41 @@
+name: Release
+
+# Ao enviar uma tag de versão (ex.: v1.1.0), monta o .zip da extensão e publica
+# a release no GitHub com ele anexado. O texto da release vem da mensagem da
+# tag anotada (git tag -a v1.1.0 -m "...").
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Publicar release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Versão da tag bate com o manifest.json
+        run: |
+          manifest="v$(node -p "require('./manifest.json').version")"
+          if [ "$manifest" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::A tag é $GITHUB_REF_NAME, mas o manifest.json diz $manifest."
+            exit 1
+          fi
+
+      - name: Montar o pacote
+        # Só o que a extensão usa: o mesmo conteúdo que vai para a Chrome Web Store.
+        run: git archive --format=zip -o "PageClip-$GITHUB_REF_NAME.zip" HEAD manifest.json icons src LICENSE
+
+      - name: Publicar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch --force origin "refs/tags/$GITHUB_REF_NAME:refs/tags/$GITHUB_REF_NAME"
+          git tag -l --format='%(contents)' "$GITHUB_REF_NAME" > notes.md
+          gh release create "$GITHUB_REF_NAME" "PageClip-$GITHUB_REF_NAME.zip" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file notes.md
